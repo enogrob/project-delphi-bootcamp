@@ -1,0 +1,3606 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>FMX.ListViewCustomAdapter</title>
+    <style type="text/css">
+
+        /* commonElements.css ************************************************/
+
+        /* Links */
+        a {
+            text-decoration: none;
+            color: #0645ad;
+            background: none;
+        }
+        a:visited {
+            color: #0b0080;
+        }
+        a:active {
+            color: #faa700;
+        }
+        a:hover, a:focus {
+            text-decoration: underline;
+        }
+        a.stub {
+            color: #772233;
+        }
+        a.new, #p-personal a.new {
+            color: #ba0000;
+        }
+        a.new:visited, #p-personal a.new:visited {
+            color: #a55858;
+        }
+
+        /* Interwiki Styling */
+        .mw-body a.extiw,
+        .mw-body a.extiw:active {
+            color: #36b;
+        }
+        .mw-body a.extiw:visited {
+            color: #636;
+        }
+        .mw-body a.extiw:active {
+            color: #b63;
+        }
+
+        /* External links */
+        .mw-body a.external {
+            color: #36b;
+        }
+        .mw-body a.external:visited {
+            color: #636; /* bug 3112 */
+        }
+        .mw-body a.external:active {
+            color: #b63;
+        }
+
+        /* Inline Elements */
+        img {
+            border: none;
+            vertical-align: middle;
+        }
+        hr {
+            height: 1px;
+            color: #aaa;
+            background-color: #aaa;
+            border: 0;
+            margin: .2em 0;
+        }
+
+        /* Structural Elements */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: black;
+            background: none;
+            font-weight: normal;
+            margin: 0;
+            overflow: hidden;
+            padding-top: .5em;
+            padding-bottom: .17em;
+            border-bottom: 1px solid #aaa;
+            width: auto;
+        }
+        h1 {
+            font-size: 188%;
+        }
+        h1 .editsection {
+            font-size: 53%;
+        }
+        h2 {
+            font-size: 150%;
+        }
+        h2 .editsection {
+            font-size: 67%;
+        }
+        h3,
+        h4,
+        h5,
+        h6 {
+            border-bottom: none;
+            font-weight: bold;
+        }
+        h3 {
+            font-size: 132%;
+        }
+        h3 .editsection {
+            font-size: 76%;
+            font-weight: normal;
+        }
+        h4 {
+            font-size: 116%;
+        }
+        h4 .editsection {
+            font-size: 86%;
+            font-weight: normal; }
+        h5 {
+            font-size: 100%;
+        }
+        h5 .editsection {
+            font-weight: normal;
+        }
+        h6 {
+            font-size: 80%;
+        }
+        h6 .editsection {
+            font-size: 125%;
+            font-weight: normal;
+        }
+
+        /* Some space under the headers in the content area */
+        h1,
+        h2 {
+            margin-bottom: .6em;
+        }
+        h3,
+        h4,
+        h5 {
+            margin-bottom: .3em;
+        }
+
+        p {
+            margin: .4em 0 .5em 0;
+            line-height: 1.5em;
+        }
+        p img {
+            margin: 0;
+        }
+
+        ul {
+            line-height: 1.5em;
+            list-style-type: square;
+            margin: .3em 0 0 1.6em;
+            padding: 0;
+        }
+        ol {
+            line-height: 1.5em;
+            margin: .3em 0 0 3.2em;
+            padding: 0;
+            list-style-image: none;
+        }
+        li {
+            margin-bottom: .1em;
+        }
+        dt {
+            font-weight: bold;
+            margin-bottom: .1em;
+        }
+        dl {
+            margin-top: .2em;
+            margin-bottom: .5em;
+        }
+        dd {
+            line-height: 1.5em;
+            margin-left: 1.6em;
+            margin-bottom: .1em;
+        }
+
+        q {
+            font-family: Times, "Times New Roman", serif;
+            font-style: italic;
+        }
+        /* Disabled for now
+        blockquote {
+            font-family: Times, "Times New Roman", serif;
+            font-style: italic;
+        }*/
+        pre, code, tt, kbd, samp {
+            /*
+            * Some browsers will render the monospace text too small, namely Firefox, Chrome and Safari.
+            * Specifying any valid, second value will trigger correct behaviour without forcing a different font.
+            */
+            font-family: monospace, Courier;
+        }
+        code {
+            background-color: #f9f9f9;
+        }
+        pre {
+            padding: 1em;
+            border: 1px dashed #2f6fab;
+            color: black;
+            background-color: #f9f9f9;
+        }
+
+        /* Tables */
+        table {
+            font-size: 100%;
+        }
+
+        /* Forms */
+        fieldset {
+            border: 1px solid #2f6fab;
+            margin: 1em 0 1em 0;
+            padding: 0 1em 1em;
+            line-height: 1.5em;
+        }
+        fieldset.nested {
+            margin: 0 0 0.5em 0;
+            padding: 0 0.5em 0.5em;
+        }
+        legend {
+            padding: .5em;
+            font-size: 95%;
+        }
+        form {
+            border: none;
+            margin: 0;
+        }
+        textarea {
+            width: 100%;
+            padding: .1em;
+        }
+        select {
+            vertical-align: top;
+        }
+
+        /* Emulate Center */
+        .center {
+            width: 100%;
+            text-align: center;
+        }
+        *.center * {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* Small for tables and similar */
+        .small {
+            font-size: 94%;
+        }
+        table.small {
+            font-size: 100%;
+        }
+
+        /* commonContent.css *************************************************/
+
+        /* Table of Contents */
+        #toc,
+        .toc,
+        .mw-warning {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            font-size: 95%;
+        }
+        #toc h2,
+        .toc h2 {
+            display: inline;
+            border: none;
+            padding: 0;
+            font-size: 100%;
+            font-weight: bold;
+        }
+        #toc #toctitle,
+        .toc #toctitle,
+        #toc .toctitle,
+        .toc .toctitle {
+            text-align: center;
+        }
+        #toc ul,
+        .toc ul {
+            list-style-type: none;
+            list-style-image: none;
+            margin-left: 0;
+            padding: 0;
+            text-align: left;
+        }
+        #toc ul ul,
+        .toc ul ul {
+            margin: 0 0 0 2em;
+        }
+        #toc .toctoggle,
+        .toc .toctoggle {
+            font-size: 94%;
+        }
+
+        .toccolours {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            font-size: 95%;
+        }
+
+        /* Warning */
+        .mw-warning {
+            margin-left: 50px;
+            margin-right: 50px;
+            text-align: center;
+        }
+
+        /* Images */
+        /* @noflip */div.floatright, table.floatright {
+            margin: 0 0 .5em .5em;
+            border: 0;
+        }
+        div.floatright p { font-style: italic; }
+        /* @noflip */div.floatleft, table.floatleft {
+            margin: 0 .5em .5em 0;
+            border: 0;
+        }
+        div.floatleft p { font-style: italic; }
+        /* Thumbnails */
+        div.thumb {
+            margin-bottom: .5em;
+            width: auto;
+            background-color: transparent;
+        }
+        div.thumbinner {
+            border: 1px solid #ccc;
+            padding: 3px !important;
+            background-color: #f9f9f9;
+            font-size: 94%;
+            text-align: center;
+            overflow: hidden;
+        }
+        html .thumbimage {
+            border: 1px solid #ccc;
+        }
+        html .thumbcaption {
+            border: none;
+            text-align: left;
+            line-height: 1.4em;
+            padding: 3px !important;
+            font-size: 94%;
+        }
+        div.magnify {
+            float: right;
+            border: none !important;
+            background: none !important;
+        }
+        div.magnify a, div.magnify img {
+            display: block;
+            border: none !important;
+            background: none !important;
+        }
+        /* @noflip */div.tright {
+            margin: .5em 0 1.3em 1.4em;
+        }
+        /* @noflip */div.tleft {
+            margin: .5em 1.4em 1.3em 0;
+        }
+        img.thumbborder {
+            border: 1px solid #dddddd;
+        }
+
+        /**
+        * Basic styles for the user login and create account forms
+        */
+        #userlogin, #userloginForm {
+            border: solid 1px #cccccc;
+            padding: 1.2em;
+            margin: .5em;
+            float: left;
+        }
+
+        /* commonInterface.css ***********************************************/
+
+        /* Categories */
+        .catlinks {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            margin-top: 1em;
+            clear: both;
+        }
+
+        /* User Message */
+        .usermessage {
+            background-color: #ffce7b;
+            border: 1px solid #ffa500;
+            color: black;
+            font-weight: bold;
+            margin: 2em 0 1em;
+            padding: .5em 1em;
+            vertical-align: middle;
+        }
+
+        /* Site Notice (includes notices from CentralNotice extension) */
+        #siteNotice {
+            position: relative;
+            text-align: center;
+            margin: 0;
+        }
+        #localNotice {
+            margin-bottom: 0.9em;
+        }
+
+        /* First h1 */
+        .firstHeading,
+        #firstHeading {
+            margin-bottom: .1em;
+            /* These two rules hack around bug 2013 (fix for more limited bug 11325).
+            * When bug 2013 is fixed properly, they should be removed. */
+            line-height: 1.2em;
+            padding-bottom: 0;
+        }
+
+        /* Sub-navigation */
+        #siteSub {
+            display: none;
+        }
+        #jump-to-nav {
+            /* Negate #contentSub's margin and replicate it so that the jump to links don't affect the spacing */
+            margin-top: -1.4em;
+            margin-bottom: 1.4em
+        }
+        #contentSub, #contentSub2 {
+            font-size: 84%;
+            line-height: 1.2em;
+            margin: 0 0 1.4em 1em;
+            color: #7d7d7d;
+            width: auto;
+        }
+        span.subpages {
+            display: block;
+        }
+
+        /* shared.css ********************************************************/
+
+        /**
+        * These classes should be used for text depending on the content direction.
+        * Content stuff like editsection, ul/ol and TOC depend on this.
+        */
+        .mw-content-ltr {
+            /* @noflip */
+            direction: ltr;
+        }
+        .mw-content-rtl {
+            /* @noflip */
+            direction: rtl;
+        }
+
+        /* Most input fields should be in site direction */
+        .sitedir-ltr textarea,
+        .sitedir-ltr input {
+            /* @noflip */
+            direction: ltr;
+        }
+        .sitedir-rtl textarea,
+        .sitedir-rtl input {
+            /* @noflip */
+            direction: rtl;
+        }
+
+        /* Input types that should follow user direction, like buttons */
+        /* TODO: What about buttons in wikipage content ? */
+        input[type="submit"],
+        input[type="button"],
+        input[type="reset"],
+        input[type="file"] {
+            direction: ltr;
+        }
+
+        /* Override default values */
+        textarea[dir="ltr"],
+        input[dir="ltr"] {
+            /* @noflip */
+            direction: ltr;
+        }
+        textarea[dir="rtl"],
+        input[dir="rtl"] {
+            /* @noflip */
+            direction: rtl;
+        }
+
+        /* Default style for semantic tags */
+        abbr,
+        acronym,
+        .explain {
+            border-bottom: 1px dotted;
+            cursor: help;
+        }
+
+        /* Colored watchlist and recent changes numbers */
+        .mw-plusminus-pos {
+            color: #006400; /* dark green */
+        }
+        .mw-plusminus-neg {
+            color: #8b0000; /* dark red */
+        }
+        .mw-plusminus-null {
+            color: #aaa; /* gray */
+        }
+
+        /**
+        * Links to redirects appear italicized on [[Special:AllPages]], [[Special:PrefixIndex]],
+        * [[Special:Watchlist/edit]] and in category listings.
+        */
+        .allpagesredirect,
+        .redirect-in-category,
+        .watchlistredir {
+            font-style: italic;
+        }
+
+        /* Comment and username portions of RC entries */
+        span.comment {
+            font-style: italic;
+        }
+
+        span.changedby {
+            font-size: 95%;
+        }
+
+        /* Math */
+        .texvc {
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+        img.tex {
+            vertical-align: middle;
+        }
+        span.texhtml {
+            font-family: serif;
+        }
+
+        /**
+        * Add a bit of margin space between the preview and the toolbar.
+        * This replaces the ugly <p><br /></p> we used to insert into the page source
+        */
+        #wikiPreview.ontop {
+            margin-bottom: 1em;
+        }
+
+        /* Stop floats from intruding into edit area in previews */
+        #editform,
+        #toolbar,
+        #wpTextbox1 {
+            clear: both;
+        }
+        #toolbar img {
+            cursor: pointer;
+        }
+        div#mw-js-message {
+            margin: 1em 5%;
+            padding: 0.5em 2.5%;
+            border: solid 1px #ddd;
+            background-color: #fcfcfc;
+        }
+
+        /* Edit section links */
+        .editsection {
+            float: right;
+            margin-left: 5px;
+        }
+        /* Correct directionality when page dir is different from site/user dir */
+        .mw-content-ltr .editsection,
+        .mw-content-rtl .mw-content-ltr .editsection {
+            /* @noflip */
+            float: right;
+        }
+        .mw-content-rtl .editsection,
+        .mw-content-ltr .mw-content-rtl .editsection {
+            /* @noflip */
+            float: left;
+        }
+
+        /**
+        * File description page
+        */
+
+        div.mw-filepage-resolutioninfo {
+            font-size: smaller;
+        }
+
+        /**
+        * File histories
+        */
+        h2#filehistory {
+            clear: both;
+        }
+
+        table.filehistory th,
+        table.filehistory td {
+            vertical-align: top;
+        }
+        table.filehistory th {
+            text-align: left;
+        }
+        table.filehistory td.mw-imagepage-filesize,
+        table.filehistory th.mw-imagepage-filesize {
+            white-space: nowrap;
+        }
+
+        table.filehistory td.filehistory-selected {
+            font-weight: bold;
+        }
+
+        /**
+        * rev_deleted stuff
+        */
+        li span.deleted,
+        span.history-deleted {
+            text-decoration: line-through;
+            color: #888;
+            font-style: italic;
+        }
+
+        /**
+        * Patrol stuff
+        */
+        .not-patrolled {
+            background-color: #ffa;
+        }
+
+        .unpatrolled {
+            font-weight: bold;
+            color: red;
+        }
+
+        div.patrollink {
+            font-size: 75%;
+            text-align: right;
+        }
+
+        /**
+        * Forms
+        */
+        td.mw-label {
+            text-align: right;
+        }
+        td.mw-input {
+            text-align: left;
+        }
+        td.mw-submit {
+            text-align: left;
+        }
+
+        td.mw-label {
+            vertical-align: top;
+        }
+        .prefsection td.mw-label {
+            width: 20%;
+        }
+        .prefsection table {
+            width: 100%;
+        }
+        td.mw-submit {
+            white-space: nowrap;
+        }
+
+        table.mw-htmlform-nolabel td.mw-label {
+            width: 1px;
+        }
+
+        tr.mw-htmlform-vertical-label td.mw-label {
+            text-align: left !important;
+        }
+
+        .mw-htmlform-invalid-input td.mw-input input {
+            border-color: red;
+        }
+
+        .mw-htmlform-flatlist div.mw-htmlform-flatlist-item {
+            display: inline;
+            margin-right: 1em;
+            white-space: nowrap;
+        }
+
+        input#wpSummary {
+            width: 80%;
+        }
+
+        /**
+        * Image captions
+        */
+        .thumbcaption {
+            text-align: left;
+        }
+        .magnify {
+            float: right;
+        }
+
+        /**
+        * Categories
+        */
+        #catlinks {
+            /**
+            * Overrides text justification (user preference)
+            * See bug 31990
+            */
+            text-align: left;
+        }
+        .catlinks ul {
+            display: inline;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            list-style-type: none;
+            list-style-image: none;
+            vertical-align: middle !ie;
+        }
+
+        .catlinks li {
+            display: inline-block;
+            line-height: 1.25em;
+            border-left: 1px solid #AAA;
+            margin: 0.125em 0;
+            padding: 0 0.5em;
+            zoom: 1;
+            display: inline !ie;
+        }
+
+        .catlinks li:first-child {
+            padding-left: 0.25em;
+            border-left: none;
+        }
+        /**
+        * Hidden categories
+        */
+        .mw-hidden-cats-hidden {
+            display: none;
+        }
+        .catlinks-allhidden {
+            display: none;
+        }
+
+        /* Convenience links to edit block, delete and protect reasons */
+        p.mw-ipb-conveniencelinks,
+        p.mw-protect-editreasons,
+        p.mw-filedelete-editreasons,
+        p.mw-delete-editreasons,
+        p.mw-revdel-editreasons {
+            font-size: 90%;
+            text-align: right;
+        }
+
+        /**
+        * OpenSearch ajax suggestions
+        */
+        .os-suggest {
+            overflow: auto;
+            overflow-x: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            background-color: white;
+            border-style: solid;
+            border-color: #AAAAAA;
+            border-width: 1px;
+            z-index:99;
+            font-size:95%;
+        }
+
+        table.os-suggest-results {
+            font-size: 95%;
+            cursor: pointer;
+            border: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .os-suggest-result,
+        .os-suggest-result-hl {
+            white-space: nowrap;
+            background-color: white;
+            color: black;
+            padding: 2px;
+        }
+        .os-suggest-result-hl,
+        .os-suggest-result-hl-webkit {
+            background-color: #4C59A6;
+            color: white;
+        }
+
+        .os-suggest-toggle {
+            position: relative;
+            left: 1ex;
+            font-size: 65%;
+        }
+        .os-suggest-toggle-def {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 65%;
+            visibility: hidden;
+        }
+
+        /* Page history styling */
+
+        /* The auto-generated edit comments */
+        .autocomment {
+            color: gray;
+        }
+        #pagehistory .history-user {
+            margin-left: 0.4em;
+            margin-right: 0.2em;
+        }
+        #pagehistory span.minor {
+            font-weight: bold;
+        }
+        #pagehistory li {
+            border: 1px solid white;
+        }
+        #pagehistory li.selected {
+            background-color: #f9f9f9;
+            border: 1px dashed #aaa;
+        }
+
+        .mw-history-revisiondelete-button, #mw-fileduplicatesearch-icon {
+            float: right;
+        }
+
+        /** Generic minor/bot/newpage styling (recent changes) */
+        .newpage,
+        .minoredit,
+        .botedit {
+            font-weight: bold;
+        }
+
+        #shared-image-dup,
+        #shared-image-conflict {
+            font-style: italic;
+        }
+
+        /**
+        * Recreating deleted page warning
+        * Reupload file warning
+        * Page protection warning
+        * incl. log entries for these warnings
+        */
+        div.mw-warning-with-logexcerpt {
+            padding: 3px;
+            margin-bottom: 3px;
+            border: 2px solid #2F6FAB;
+            clear: both;
+        }
+        div.mw-warning-with-logexcerpt ul li {
+            font-size: 90%;
+        }
+
+        /* (show/hide) revision deletion links */
+        span.mw-revdelundel-link,
+        strong.mw-revdelundel-link {
+            font-size: 90%;
+        }
+        span.mw-revdelundel-hidden,
+        input.mw-revdelundel-hidden {
+            visibility: hidden;
+        }
+
+        td.mw-revdel-checkbox,
+        th.mw-revdel-checkbox {
+            padding-right: 10px;
+            text-align: center;
+        }
+
+        /* Plainlinks - this can be used to switch
+        * off special external link styling */
+        .plainlinks a {
+            background: none !important;
+            padding: 0 !important;
+        }
+        /* External URLs should always be treated as LTR (bug 4330) */
+        /* @noflip */ .rtl a.external.free,
+        .rtl a.external.autonumber {
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+
+        /**
+        * wikitable class for skinning normal tables
+        * keep in sync with commonPrint.css
+        */
+        table.wikitable {
+            margin: 1em 1em 1em 0;
+            background-color: #f9f9f9;
+            border: 1px #aaa solid;
+            border-collapse: collapse;
+            color: black;
+        }
+        table.wikitable > tr > th,
+        table.wikitable > tr > td,
+        table.wikitable > * > tr > th,
+        table.wikitable > * > tr > td {
+            border: 1px #aaa solid;
+            padding: 0.2em;
+        }
+        table.wikitable > tr > th,
+        table.wikitable > * > tr > th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        table.wikitable > caption {
+            font-weight: bold;
+        }
+
+        /* hide initially collapsed collapsable tables */
+        table.collapsed tr.collapsable {
+            display: none;
+        }
+
+        /* success and error messages */
+        .success {
+            color: green;
+            font-size: larger;
+        }
+        .warning {
+            color: #FFA500; /* orange */
+            font-size: larger;
+        }
+        .error {
+            color: red;
+            font-size: larger;
+        }
+        .errorbox,
+        .warningbox,
+        .successbox {
+            font-size: larger;
+            border: 2px solid;
+            padding: .5em 1em;
+            float: left;
+            margin-bottom: 2em;
+            color: #000;
+        }
+        .errorbox {
+            border-color: red;
+            background-color: #fff2f2;
+        }
+        .warningbox {
+            border-color: #FF8C00; /* darkorange */
+            background-color: #FFFFC0;
+        }
+        .successbox {
+            border-color: green;
+            background-color: #dfd;
+        }
+        .errorbox h2,
+        .warningbox h2,
+        .successbox h2 {
+            font-size: 1em;
+            font-weight: bold;
+            display: inline;
+            margin: 0 .5em 0 0;
+            border: none;
+        }
+
+        /* general info/warning box for SP */
+        .mw-infobox {
+            border: 2px solid #ff7f00;
+            margin: 0.5em;
+            clear: left;
+            overflow: hidden;
+        }
+
+        .mw-infobox-left {
+            margin: 7px;
+            float: left;
+            width: 35px;
+        }
+
+        .mw-infobox-right {
+            margin: 0.5em 0.5em 0.5em 49px;
+        }
+
+        /* Note on preview page */
+        .previewnote {
+            color: #c00;
+            margin-bottom: 1em;
+        }
+
+        .previewnote p {
+            text-indent: 3em;
+            margin: 0.8em 0;
+        }
+
+        .visualClear {
+            clear: both;
+        }
+
+        #mw_trackbacks {
+            border: solid 1px #bbbbff;
+            background-color: #eeeeff;
+            padding: 0.2em;
+        }
+
+        /**
+        * Data table style
+        *
+        * Transparent table with suddle borders
+        * and blue row-highlighting.
+        */
+        .mw-datatable {
+            border-collapse: collapse;
+        }
+        .mw-datatable,
+        .mw-datatable td,
+        .mw-datatable th {
+            border: 1px solid #aaaaaa;
+            padding: 0 0.15em 0 0.15em;
+        }
+        .mw-datatable th {
+            background-color: #ddddff;
+        }
+        .mw-datatable td {
+            background-color: #ffffff;
+        }
+        .mw-datatable tr:hover td {
+            background-color: #eeeeff;
+        }
+
+
+        /**
+        * TablePager tables generated by the TablePager PHP class
+        * in MediaWiki (e.g. Special:ListFiles).
+        */
+        .TablePager {
+            min-width: 80%;
+        }
+        .TablePager_nav {
+            margin: 0 auto;
+        }
+        .TablePager_nav td {
+            padding: 3px;
+            text-align: center;
+        }
+        .TablePager_nav a {
+            text-decoration: none;
+        }
+
+        .imagelist td,
+        .imagelist th {
+            white-space: nowrap;
+        }
+        .imagelist .TablePager_col_links {
+            background-color: #eeeeff;
+        }
+        .imagelist .TablePager_col_img_description {
+            white-space: normal;
+        }
+        .imagelist th.TablePager_sort {
+            background-color: #ccccff;
+        }
+
+        /* filetoc */
+        ul#filetoc {
+            text-align: center;
+            border: 1px solid #aaaaaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            font-size: 95%;
+            margin-bottom: 0.5em;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        #filetoc li {
+            display: inline;
+            list-style-type: none;
+            padding-right: 2em;
+        }
+
+        /* Classes for EXIF data display */
+        table.mw_metadata {
+            font-size: 0.8em;
+            margin-left: 0.5em;
+            margin-bottom: 0.5em;
+            width: 400px;
+        }
+
+        table.mw_metadata caption {
+            font-weight: bold;
+        }
+
+        table.mw_metadata th {
+            font-weight: normal;
+        }
+
+        table.mw_metadata td {
+            padding: 0.1em;
+        }
+
+        table.mw_metadata {
+            border: none;
+            border-collapse: collapse;
+        }
+
+        table.mw_metadata td,
+        table.mw_metadata th {
+            text-align: center;
+            border: 1px solid #aaaaaa;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        table.mw_metadata th {
+            background-color: #f9f9f9;
+        }
+
+        table.mw_metadata td {
+            background-color: #fcfcfc;
+        }
+
+        table.mw_metadata ul.metadata-langlist {
+            list-style-type: none;
+            list-style-image: none;
+            padding-right: 5px;
+            padding-left: 5px;
+            margin: 0;
+        }
+
+        /* Correct directionality when page dir is different from site/user dir */
+        .mw-content-ltr ul,
+        .mw-content-rtl .mw-content-ltr ul {
+            /* @noflip */
+            margin: 0.3em 0 0 1.6em;
+            padding: 0;
+        }
+        .mw-content-rtl ul,
+        .mw-content-ltr .mw-content-rtl ul {
+            /* @noflip */
+            margin: 0.3em 1.6em 0 0;
+            padding: 0;
+        }
+        .mw-content-ltr ol,
+        .mw-content-rtl .mw-content-ltr ol {
+            /* @noflip */
+            margin: 0.3em 0 0 3.2em;
+            padding: 0;
+        }
+        .mw-content-rtl ol,
+        .mw-content-ltr .mw-content-rtl ol {
+            /* @noflip */
+            margin: 0.3em 3.2em 0 0;
+            padding: 0;
+        }
+        /* @noflip */
+        .mw-content-ltr dd,
+        .mw-content-rtl .mw-content-ltr dd {
+            margin-left: 1.6em;
+            margin-right: 0;
+        }
+        /* @noflip */
+        .mw-content-rtl dd,
+        .mw-content-ltr .mw-content-rtl dd {
+            margin-right: 1.6em;
+            margin-left: 0;
+        }
+
+        /* Galleries */
+        /* These display attributes look nonsensical, but are needed to support IE and FF2 */
+        /* Don't forget to update commonPrint.css */
+        li.gallerybox {
+            vertical-align: top;
+            border: solid 2px white;
+            display: -moz-inline-box;
+            display: inline-block;
+        }
+
+        ul.gallery,
+        li.gallerybox {
+            zoom: 1;
+            *display: inline;
+        }
+
+        ul.gallery {
+            margin: 2px;
+            padding: 2px;
+            display: block;
+        }
+
+        li.gallerycaption {
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        li.gallerybox div.thumb {
+            text-align: center;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            margin: 2px;
+        }
+
+        li.gallerybox div.thumb img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        div.gallerytext {
+            overflow: hidden;
+            font-size: 94%;
+            padding: 2px 4px;
+            word-wrap: break-word;
+        }
+
+        /* Language specific height correction for titles. Ref Bug 29405 and Bug 30809 */
+        /* Languages like hi or ml require slightly more vertical space to show diacritics properly */
+        h1:lang(as),
+        h1:lang(bn),
+        h1:lang(gu),
+        h1:lang(hi),
+        h1:lang(kn),
+        h1:lang(ml),
+        h1:lang(mr),
+        h1:lang(or),
+        h1:lang(pa),
+        h1:lang(sa),
+        h1:lang(ta),
+        h1:lang(te) {
+            line-height: 1.5em !important;
+        }
+        h2:lang(as), h3:lang(as), h4:lang(as), h5:lang(as), h6:lang(as),
+        h2:lang(bn), h3:lang(bn), h4:lang(bn), h5:lang(bn), h6:lang(bn),
+        h2:lang(gu), h3:lang(gu), h4:lang(gu), h5:lang(gu), h6:lang(gu),
+        h2:lang(hi), h3:lang(hi), h4:lang(hi), h5:lang(hi), h6:lang(hi),
+        h2:lang(kn), h3:lang(kn), h4:lang(kn), h5:lang(kn), h6:lang(kn),
+        h2:lang(ml), h3:lang(ml), h4:lang(ml), h5:lang(ml), h6:lang(ml),
+        h2:lang(mr), h3:lang(mr), h4:lang(mr), h5:lang(mr), h6:lang(mr),
+        h2:lang(or), h3:lang(or), h4:lang(or), h5:lang(or), h6:lang(or),
+        h2:lang(pa), h3:lang(pa), h4:lang(pa), h5:lang(pa), h6:lang(pa),
+        h2:lang(sa), h3:lang(sa), h4:lang(sa), h5:lang(sa), h6:lang(sa),
+        h2:lang(ta), h3:lang(ta), h4:lang(ta), h5:lang(ta), h6:lang(ta),
+        h2:lang(te), h3:lang(te), h4:lang(te), h5:lang(te), h6:lang(te) {
+            line-height: 1.2em;
+        }
+
+        /* Localised ordered list numbering for some languages */
+        ol:lang(bcc) li,
+        ol:lang(bqi) li,
+        ol:lang(fa) li,
+        ol:lang(glk) li,
+        ol:lang(kk-arab) li,
+        ol:lang(mzn) li {
+            list-style-type: -moz-persian;
+            list-style-type: persian;
+        }
+
+        ol:lang(ckb) li {
+            list-style-type: -moz-arabic-indic;
+            list-style-type: arabic-indic;
+        }
+
+        ol:lang(as) li,
+        ol:lang(bn) li {
+            list-style-type: -moz-bengali;
+            list-style-type: bengali;
+        }
+
+        ol:lang(or) li {
+            list-style-type: -moz-oriya;
+            list-style-type: oriya;
+        }
+
+        #toc ul, .toc ul {
+            margin: .3em 0;
+        }
+
+        /* Correct directionality when page dir is different from site/user dir */
+        /* @noflip */ .mw-content-ltr .toc ul,
+        .mw-content-ltr #toc ul,
+        .mw-content-rtl .mw-content-ltr .toc ul,
+        .mw-content-rtl .mw-content-ltr #toc ul {
+            text-align: left;
+        }
+        /* @noflip */ .mw-content-rtl .toc ul,
+        .mw-content-rtl #toc ul,
+        .mw-content-ltr .mw-content-rtl .toc ul,
+        .mw-content-ltr .mw-content-rtl #toc ul {
+            text-align: right;
+        }
+        /* @noflip */ .mw-content-ltr .toc ul ul,
+        .mw-content-ltr #toc ul ul,
+        .mw-content-rtl .mw-content-ltr .toc ul ul,
+        .mw-content-rtl .mw-content-ltr #toc ul ul {
+            margin: 0 0 0 2em;
+        }
+        /* @noflip */ .mw-content-rtl .toc ul ul,
+        .mw-content-rtl #toc ul ul,
+        .mw-content-ltr .mw-content-rtl .toc ul ul,
+        .mw-content-ltr .mw-content-rtl #toc ul ul {
+            margin: 0 2em 0 0;
+        }
+
+        #toc #toctitle,
+        .toc #toctitle,
+        #toc .toctitle,
+        .toc .toctitle {
+            direction: ltr;
+        }
+        .mw-help-field-data {
+            display: block;
+            background-color: #d6f3ff;
+            padding:5px 8px 4px 8px;
+            border: 1px solid #5dc9f4;
+            margin-left: 20px;
+        }
+        .tipsy {
+            padding: 5px 5px 10px;
+            font-size: 12px;
+            position: absolute;
+            z-index: 100000;
+            overflow: visible;
+        }
+        .tipsy-inner {
+            padding: 5px 8px 4px 8px;
+            background-color: #d6f3ff;
+            color: black;
+            border: 1px solid #5dc9f4;
+            max-width: 300px;
+            text-align: left;
+        }
+        .tipsy-se .tipsy-arrow {
+            bottom: -2px;
+            right: 10px;
+            background-position: 0% 100%;
+        }
+
+        #mw-clearyourcache,
+        #mw-sitecsspreview,
+        #mw-sitejspreview,
+        #mw-usercsspreview,
+        #mw-userjspreview {
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+
+        /* Correct user & content directionality when viewing a diff */
+        .diff-currentversion-title,
+        .diff {
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+        /* @noflip */ .diff-contentalign-right td {
+            direction: rtl;
+            unicode-bidi: embed;
+        }
+        /* @noflip */ .diff-contentalign-left td {
+            direction: ltr;
+            unicode-bidi: embed;
+        }
+        .diff-otitle,
+        .diff-ntitle,
+        .diff-lineno {
+            direction: ltr !important;
+            unicode-bidi: embed;
+        }
+
+        #mw-revision-info,
+        #mw-revision-info-current,
+        #mw-revision-nav {
+            direction: ltr;
+            display: inline;
+        }
+
+        /* Images */
+
+        /* @noflip */ div.tright,
+        div.floatright,
+        table.floatright {
+            clear: right;
+            float: right;
+        }
+        /* @noflip */ div.tleft,
+        div.floatleft,
+        table.floatleft {
+            float: left;
+            clear: left;
+        }
+        div.floatright,
+        table.floatright,
+        div.floatleft,
+        table.floatleft {
+            position: relative;
+        }
+
+        /* bug 12205 */
+        #mw-credits a {
+            unicode-bidi: embed;
+        }
+
+        /* Accessibility */
+        .mw-jump,
+        #jump-to-nav {
+            overflow: hidden;
+            height: 0;
+            zoom: 1; /* http://webaim.org/techniques/skipnav/#iequirk */
+        }
+
+        /* For developpers */
+        .xdebug-error {
+            position: absolute;
+            z-index: 99;
+        }
+
+        /* main.css **********************************************************/
+
+        #column-content {
+            margin: 5px;
+            padding: 0;
+        }
+
+        #content {
+            margin: 0em 0 0 0em;
+            padding: 0 1em 1em 1em;
+            position: relative;
+            z-index: 2;
+            background: white 0 0 no-repeat;
+            color: black;
+            border-right: none;
+            line-height: 1.5em;
+            overflow: visible;
+            min-height:45em;
+
+        }
+
+        #column-one {
+            padding-top: 170px;
+        }
+        /* the left column width is specified in class .portlet */
+
+        /* Font size:
+        ** We take advantage of keyword scaling- browsers won't go below 9px
+        ** More at http://www.w3.org/2003/07/30-font-size
+        ** http://style.cleverchimp.com/font_size_intervals/altintervals.html
+        */
+
+        body {
+            font: x-small sans-serif;
+            background: #FFF;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* scale back up to a sane default */
+        #globalWrapper {
+            font-size: 127%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .visualClear {
+            clear: both;
+        }
+
+        /* general styles */
+
+        table {
+            font-size: 100%;
+            color: black;
+            /* we don't want the bottom borders of <h2>s to be visible through
+            floated tables */
+            background-color: white;
+            border-top: 2px solid #f3f3f3;
+            border-left: 2px solid #f3f3f3;
+            border-right: 1px solid #999;
+            border-bottom: 1px solid #999;
+            border-spacing:0px;
+            border-style:solid;
+        }
+
+        table td {
+            padding: 0 .5em 0 .5em;
+            background-color:#eee;
+            border-left: 1px solid #f3f3f3;
+            border-right: 1px solid #e3e3e3;
+            border-top: 1px solid #f3f3f3;
+            border-bottom: 1px solid #ccc;
+
+        }
+        fieldset table {
+            /* but keep table layouts in forms clean... */
+            background: none;
+        }
+        a {
+            text-decoration: none;
+            color: #002bb8;
+            background: none;
+        }
+        a:visited {
+            color: #5a3696;
+        }
+        a:active {
+            color: #faa700;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        a.stub {
+            color: #772233;
+        }
+        a.new, #p-personal a.new {
+            color: #ba0000;
+        }
+        a.new:visited, #p-personal a.new:visited {
+            color: #a55858;
+        }
+
+        img {
+            border: none;
+            vertical-align: middle;
+        }
+        p {
+            margin: .4em 0 .5em 0;
+            line-height: 1.5em;
+        }
+        p img {
+            margin: 0;
+        }
+
+        hr {
+            height: 1px;
+            color: #aaa;
+            background-color: #aaa;
+            border: 0;
+            margin: .2em 0 .2em 0;
+        }
+
+        .editsection { display: none; }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: black;
+            background: none;
+            font-weight: normal;
+            margin: 0;
+            padding-top: .5em;
+            padding-bottom: .17em;
+            border-bottom: 1px solid #aaa;
+        }
+        h1 { font-size: 188%; }
+        h1 .editsection { font-size: 53%; }
+        h2 { font-size: 150%; }
+        h2 .editsection { font-size: 67%; }
+        h3, h4, h5, h6 {
+            border-bottom: none;
+            font-weight: bold;
+        }
+        h3 { font-size: 132%; }
+        h3 .editsection { font-size: 76%; font-weight: normal; }
+        h4 { font-size: 116%; }
+        h4 .editsection { font-size: 86%; font-weight: normal; }
+        h5 { font-size: 100%; }
+        h5 .editsection { font-weight: normal; }
+        h6 { font-size: 80%;  }
+        h6 .editsection { font-size: 125%; font-weight: normal; }
+
+        ul {
+            line-height: 1.5em;
+            list-style-type: square;
+            margin: .3em 0 0 1.5em;
+            padding: 0;
+            list-style-image: url('data:image/gif;base64,R0lGODlhBgAHAKIAAAAAAN4xKN4yJuAxJeAxKOIvKAAAAAAAACH5BAkKAAYALAAAAAAGAAcAAAMOaLo2w4YEGJ4qYg0CWQIAOw==');
+        }
+        ol {
+            line-height: 1.5em;
+            margin: .3em 0 0 3.2em;
+            padding: 0;
+            list-style-image: none;
+        }
+        li {
+            margin-bottom: .1em;
+        }
+        dt {
+            font-weight: bold;
+            margin-bottom: .1em;
+        }
+        dl {
+            margin-top: .2em;
+            margin-bottom: .5em;
+        }
+        dd {
+            line-height: 1.5em;
+            margin-left: 2em;
+            margin-bottom: .1em;
+        }
+
+        fieldset {
+            border: 1px solid #2f6fab;
+            margin: 1em 0 1em 0;
+            padding: 0 1em 1em;
+            line-height: 1.5em;
+        }
+        fieldset.nested {
+            margin: 0 0 0.5em 0;
+            padding: 0 0.5em 0.5em;
+        }
+        legend {
+            padding: .5em;
+            font-size: 95%;
+        }
+        form {
+            border: none;
+            margin: 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: .1em;
+        }
+
+        input.historysubmit {
+            padding: 0 .3em .3em .3em !important;
+            font-size: 94%;
+            cursor: pointer;
+            height: 1.7em !important;
+            margin-left: 1.6em;
+        }
+        select {
+            vertical-align: top;
+        }
+        abbr, acronym, .explain {
+            border-bottom: 1px dotted black;
+            color: black;
+            background: none;
+            cursor: help;
+        }
+        q {
+            font-family: Times, "Times New Roman", serif;
+            font-style: italic;
+        }
+        /* disabled for now
+        blockquote {
+            font-family: Times, "Times New Roman", serif;
+            font-style: italic;
+        }*/
+        code {
+            background-color: #f9f9f9;
+        }
+        source {
+            background-color: #eeeeee;
+        }
+        pre {
+            padding: 1em;
+            border: 1px dashed #2f6fab;
+            color: black;
+            background-color: #f9f9f9;
+            line-height: 1.1em;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        div.source-delphi, div.source-cpp, div.source-xml {
+        padding: 1em;
+        margin: 1em 0;
+        border: 1px dashed #2f6fab;
+        background-color:  #f9f9f9;
+        line-height: 1.1em;
+        font-size: 1.2em;
+        }
+
+        #codesig div.source-delphi, #codesig div.source-cpp {
+            border:none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+            white-space: pre-wrap;
+            font-size: 1.1em;
+        }
+
+        /*
+        ** the main content area
+        */
+
+        #siteSub {
+            display: none;
+        }
+        #jump-to-nav {
+            display: none;
+        }
+
+        #contentSub, #contentSub2 {
+            font-size: 84%;
+            line-height: 1.2em;
+            margin: 0 0 1.4em 1em;
+            color: #7d7d7d;
+            width: auto;
+        }
+        span.subpages {
+            display: block;
+        }
+
+        /* Some space under the headers in the content area */
+        #bodyContent h1, #bodyContent h2 {
+            margin-bottom: .6em;
+        }
+        #bodyContent h3, #bodyContent h4, #bodyContent h5 {
+            margin-bottom: .3em;
+        }
+        .firstHeading {
+            margin-bottom: .1em;
+            /* These two rules hack around bug 2013 (fix for more limited bug 11325).
+            When bug 2013 is fixed properly, they should be removed. */
+            padding-top: 0em;
+            display:block;
+            width: 100%;
+            height: 100%;
+            line-height: 1.2em;
+            padding-bottom: 0;
+        }
+
+        /* user notification thing */
+        .usermessage {
+            background-color: #ffce7b;
+            border: 1px solid #ffa500;
+            color: black;
+            font-weight: bold;
+            margin: 2em 0 1em;
+            padding: .5em 1em;
+            vertical-align: middle;
+        }
+        #siteNotice {
+            text-align: center;
+            font-size: 95%;
+            padding: 0 .9em;
+        }
+        #siteNotice p {
+            margin: 0;
+            padding: 0;
+        }
+        .success {
+            color: green;
+            font-size: larger;
+        }
+        .error {
+            color: red;
+            font-size: larger;
+        }
+        .errorbox, .successbox {
+            font-size: larger;
+            border: 2px solid;
+            padding: .5em 1em;
+            float: left;
+            margin-bottom: 2em;
+            color: #000;
+        }
+        .errorbox {
+            border-color: red;
+            background-color: #fff2f2;
+        }
+        .successbox {
+            border-color: green;
+            background-color: #dfd;
+        }
+        .errorbox h2, .successbox h2 {
+            font-size: 1em;
+            font-weight: bold;
+            display: inline;
+            margin: 0 .5em 0 0;
+            border: none;
+        }
+
+        .catlinks {
+            display: none;
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            margin-top: 1em;
+            clear: both;
+        }
+        /* currently unused, intended to be used by a metadata box
+        in the bottom-right corner of the content area */
+        .documentDescription {
+            /* The summary text describing the document */
+            font-weight: bold;
+            display: block;
+            margin: 1em 0;
+            line-height: 1.5em;
+        }
+        .documentByLine {
+            text-align: right;
+            font-size: 90%;
+            clear: both;
+            font-weight: normal;
+            color: #76797c;
+        }
+
+        /* emulate center */
+        .center {
+            width: 100%;
+            text-align: center;
+        }
+        *.center * {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* small for tables and similar */
+        .small, .small * {
+            font-size: 94%;
+        }
+        table.small {
+            font-size: 100%;
+        }
+
+        /*
+        ** content styles
+        */
+
+        table#toc.toc {
+            border: none;
+            display: block;
+            position: relative;
+            float: right;
+            max-width: 40%;
+            margin: -5px 0px 10px 10px;
+            z-index: 3;
+        }
+        #toc a:visited {
+            color: #002bb8;
+        }
+
+        #toc,
+        .toc,
+        .mw-warning {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            font-size: 95%;
+            z-index:3;
+        }
+        #toc h2,
+        .toc h2 {
+            display: inline;
+            border: none;
+            padding: 0;
+            font-size: 100%;
+            font-weight: bold;
+            z-index:3;
+        }
+        #toc #toctitle,
+        .toc #toctitle,
+        #toc .toctitle,
+        .toc .toctitle {
+            z-index:3;
+        }
+        #toc ul,
+        .toc ul {
+            list-style-type: none;
+            list-style-image: none;
+            margin-left: 0;
+            padding-left: 0;
+            width: 100%;
+            display:block;
+        }
+        #toc ul ul,
+        .toc ul ul {
+            margin: 0 0 0 1em;
+
+        }
+        #toc .toctoggle,
+        .toc .toctoggle {
+            font-size: 94%;
+        }
+
+        #toc table, #toc tbody, #toc tr, #toc td{
+            width: 100%;
+        }
+
+        #toc ul li,
+        .toc ul li {
+            /*display: inline; */
+            margin: 0 1em 0 0;
+        }
+
+        .mw-warning {
+            margin-left: 50px;
+            margin-right: 50px;
+            text-align: center;
+        }
+
+        /* images */
+        div.floatright, table.floatright {
+            clear: right;
+            float: right;
+            position: relative;
+            margin: 0 0 .5em .5em;
+            border: 0;
+        /*
+            border: .5em solid white;
+            border-width: .5em 0 .8em 1.4em;
+        */
+        }
+        div.floatright p { font-style: italic; }
+        div.floatleft, table.floatleft {
+            float: left;
+            clear: left;
+            position: relative;
+            margin: 0 .5em .5em 0;
+            border: 0;
+        /*
+            margin: .3em .5em .5em 0;
+            border: .5em solid white;
+            border-width: .5em 1.4em .8em 0;
+        */
+        }
+        div.floatleft p { font-style: italic; }
+        /* thumbnails */
+        div.thumb {
+            margin-bottom: .5em;
+            border-style: solid;
+            border-color: white;
+            width: auto;
+        }
+        div.thumbinner {
+            border: 1px solid #ccc;
+            padding: 3px !important;
+            background-color: #f9f9f9;
+            font-size: 94%;
+            text-align: center;
+            overflow: hidden;
+        }
+        html .thumbimage {
+            border: 1px solid #ccc;
+        }
+        html .thumbcaption {
+            border: none;
+            text-align: left;
+            line-height: 1.4em;
+            padding: 3px !important;
+            font-size: 94%;
+        }
+        div.magnify {
+            float: right;
+            border: none !important;
+            background: none !important;
+        }
+        div.magnify a, div.magnify img {
+            display: block;
+            border: none !important;
+            background: none !important;
+        }
+        div.tright {
+            clear: right;
+            float: right;
+            border-width: .5em 0 .8em 1.4em;
+        }
+        div.tleft {
+            float: left;
+            clear: left;
+            margin-right: .5em;
+            border-width: .5em 1.4em .8em 0;
+        }
+        img.thumbborder {
+            border: 1px solid #dddddd;
+        }
+        .hiddenStructure {
+            display: none;
+        }
+
+        /*
+        ** classes for special content elements like town boxes
+        ** intended to be referenced directly from the wiki src
+        */
+
+        /*
+        ** User styles
+        */
+        /* table standards */
+        table.rimage {
+            float: right;
+            position: relative;
+            margin-left: 1em;
+            margin-bottom: 1em;
+            text-align: center;
+        }
+        .toccolours {
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            font-size: 95%;
+        }
+
+        /*
+        ** edit views etc
+        */
+        .special li {
+            line-height: 1.4em;
+            margin: 0;
+            padding: 0;
+        }
+
+        /*
+        ** keep the whitespace in front of the ^=, hides rule from konqueror
+        ** this is css3, the validator doesn't like it when validating as css2
+        */
+        #bodyContent a.external,
+        #bodyContent a[href ^="gopher://"] {
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAFVBMVEVmmcwzmcyZzP8AZswAZv////////9E6giVAAAAB3RSTlP///////8AGksDRgAAADhJREFUGFcly0ESAEAEA0Ei6/9P3sEcVB8kmrwFyni0bOeyyDpy9JTLEaOhQq7Ongf5FeMhHS/4AVnsAZubxDVmAAAAAElFTkSuQmCC') center right no-repeat;
+            padding-right: 13px;
+        }
+        #bodyContent a[href ^="https://"],
+        .link-https {
+            background: url('data:image/gif;base64,R0lGODlhEAANAPcAAEVFRZmXO62qOLCtOLm2N765NsbCNcnFNNHOM93YI9/bL9TQM9rWMdvYMeDbMODcMODcMs3KW+TgR+TgSubiWufkXejkZ5KSkqKioq6urtjWnO3ri+/tofDup/Hup/HwsNHR0dLS0vX0zfj32+np6fn55Pv76/Dw8Pv78P399P/+/f////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACwALAAAAAAQAA0AAAhzAFkIFJihYMGBCAdmGKECxQgNABIqHLECgEUOESJKzFBRIQWNCTOYAJlBAUiEC0kmOCkQRICXMGFiCLkiRQkRHzZYmPCAZYYBBQ4saPDgQQUPPmvezGlBQs+QAggYQMDAgdEOSW3i1DkBAssQFsOKvTAwIAA7') center right no-repeat;
+            padding-right: 16px;
+        }
+        #bodyContent a[href ^="mailto:"],
+        .link-mailto {
+            background: url('data:image/gif;base64,R0lGODlhEAAQAPcAAE5OTmSh5e43IPBEL/JhT6Ojo4Kz6o298LHQ8rbT87nV873X9L7Y9MLa9cXc9cne9srf9tDj99Hj99bm+Nrp+dzq+d3q+d/s+uHt+uTu+ujx++ny++vz/O30/PD2/PL3/fX5/fn7/vz9/v7+/+0XF////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACQALAAAAAAQABAAAAhzAEkIHEiwoMGDCBMSLMCwocOGAAQWKEGRoggQHTJUiHAgIomJFUeE8KDhAoEBHSWWCGAggEsOGCYMEJDyY8WLGSlEcLCg5kSWLg1YkPCAQQKfJUR+2HBhAoQGChD4PEC1qlWqHgsA2Mq1K1eFYMOKHVswIAA7') center right no-repeat;
+            padding-right: 18px;
+        }
+        #bodyContent a[href ^="news://"] {
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAclBMVEXtFxdkoeXuNyDwRC/yYU+jo6OCs+qNvfCx0PK20/O51fO91/S+2PTC2vXF3PXJ3vbK3/bQ4/fR4/fW5vja6fnc6vnd6vnf7Prh7frk7vro8fvp8vvr8/zt9Pzw9vzy9/31+f35+/78/f7+/v9OTk7///+hgxW+AAAAAXRSTlMAQObYZgAAAGVJREFUeNqFz1cOgCAQRVGwgL1h7wjuf4s6QhT98X6e8DIBod9cMwmwQ9s6dVVObxB87hvH1vAZnfAeaXhGAJhgjMeW2RYAdfWgzJMQQKoXpC7SyNd3BF+GhmVx4CmgRhdIs//PHhVeDaSWnu0yAAAAAElFTkSuQmCC') center right no-repeat;
+            padding-right: 18px;
+        }
+        #bodyContent a[href ^="ftp://"],
+        .link-ftp {
+            background: url('data:image/gif;base64,R0lGODlhEAAQAPcAAE5OTv8RkouLi4298KjN9LDR9bLT9bjW9rrX9r3Z9sDb98Pc98be98ng+Mzh+M/j+dHk+dXn+dTm+tfo+drp+tzr+t3r+t/s+uLu++Tv++Tw++bx/Ony/Oz0/O71/fD3/fL3/fT4/vb6/vj7//r8//v8//3+//7+/////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAEALAAAAAAQABAAAAh2AAMIHEiwoMGDBwUoXAgAYQABKCKigNgwocSJESsWhBixhAAAIDUOhHiCRAgPA1KKFCjAxAgQHTJYkDBg5UMRHzhgoAChQU2DAjxsuDDhAYMEPzdqqBDBwQIEBpISFMCzgYIDBQhIHZmya1ebIcOGdEi2bMGAAAA7') center right no-repeat;
+            padding-right: 18px;
+        }
+        #bodyContent a[href ^="irc://"],
+        #bodyContent a.extiw[href ^="irc://"],
+        .link-irc {
+            background: url('data:image/gif;base64,R0lGODlhEAAQAPcAAE5OTmtra2+Xxm+Yx5EtLf8RkouLi4KjyJOty56qzYm68Iu78I298JC+8ZG/8a2z0LW30Ly80JLA8ZPA8ZbB8pjC8pvF8pzF857H86PJ86XL9KjM86rN9LDR9bLR9bfV9bnW9rvX9rzY98PDw8rE0tHH08Pc+Mfe+Mjf+M3i+M/i+dPl+tTm+tXm+trq+t3r+97r+9/t++3t7eXv/Ofx/Ojy/e31/O71/fD3/fL4/fP4/vX6/ff6/vn7/vr8/vz+//3+/////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAUALAAAAAAQABAAAAiSAAsIHEiwoMGDCGUoXKjQoAwDECNGDCBj4EMZQXrkqAFjxYkQCABULGAAow8dBEq0IADBg4YDAAQaCPJjhw0CJFIQeLDhgoOYJIHwuDHDhQoTHzhgmKAAaEkcNF4QiACCQAIKCwQAvRiDBQoRHTJUYDAAwAiLBgCoBWDAQgO1ZxGSlGB2pNy0ceUKNKu3r9+CAQEAOw==') center right no-repeat;
+            padding-right: 18px;
+        }
+        #bodyContent a.external[href $=".ogg"], #bodyContent a.external[href $=".OGG"],
+        #bodyContent a.external[href $=".mid"], #bodyContent a.external[href $=".MID"],
+        #bodyContent a.external[href $=".midi"], #bodyContent a.external[href $=".MIDI"],
+        #bodyContent a.external[href $=".mp3"], #bodyContent a.external[href $=".MP3"],
+        #bodyContent a.external[href $=".wav"], #bodyContent a.external[href $=".WAV"],
+        #bodyContent a.external[href $=".wma"], #bodyContent a.external[href $=".WMA"],
+        .link-audio {
+            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAMAAABVLlSxAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAA/UExURYO1/8zg/5rC/1+f/1ud/+30/63O//v9/+Xv/5S//53E/73X/4K0/0GN/+bw/3at/2aj/3+y5f///wBmzP///7yvI4wAAAAVdFJOU///////////////////////////ACvZfeoAAABeSURBVHjaYhABAkFhECkCEEAMYKYwHwczPztAADEICgoKCwlzsbDyMgIEEIOwsLCQkLCIABsnD0AAMQBZIDYTA7cAQAAhswECCFkNQAAh6wUIIGQzAQKIAckugAADAJRZBqnJZ4GSAAAAAElFTkSuQmCC") center right no-repeat;
+            padding-right: 13px;
+        }
+        #bodyContent a.external[href $=".ogm"], #bodyContent a.external[href $=".OGM"],
+        #bodyContent a.external[href $=".avi"], #bodyContent a.external[href $=".AVI"],
+        #bodyContent a.external[href $=".mpeg"], #bodyContent a.external[href $=".MPEG"],
+        #bodyContent a.external[href $=".mpg"], #bodyContent a.external[href $=".MPG"],
+        .link-video {
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAASUExURczg9bLR8DOF1maj4P///wBmzL8VgU8AAABLSURBVHjaYmBmZWVkYWFkZWUGCCAGZgYmViBgYmAGCCAGhChAAIFEWYAAKAoQQEiiAAGEpBYggJBEAQIISS1AACGJAgQQklqAAAMARm0BQ7tR/e0AAAAASUVORK5CYII=') center right no-repeat;
+            padding-right: 13px;
+        }
+        #bodyContent a.external[href $=".pdf"], #bodyContent a.external[href $=".PDF"],
+        #bodyContent a.external[href *=".pdf#"], #bodyContent a.external[href *=".PDF#"],
+        #bodyContent a.external[href *=".pdf?"], #bodyContent a.external[href *=".PDF?"],
+        .link-document {
+            background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAKCAMAAAC+Ge+yAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAkUExURTOF1i2B1ubw/x130n+y5eHt/6XJ/8zg/2aj/////wBmzP///zvG3SgAAAAMdFJOU///////////////ABLfzs4AAABYSURBVHjaYuACAmYWbm6AAGLg4uTk5GJg4QYIIAYuVnZ2LiZGFoAAYuBi4+AAyQIEEFiEnZ2VCyCAwCIcHGxcAAEEFwEIILgIQACBtYNMAAggBi4oAAgwAGydAoHBcnzyAAAAAElFTkSuQmCC") center right no-repeat;
+            padding-right: 12px;
+        }
+
+        /* disable interwiki styling */
+        #bodyContent a.extiw,
+        #bodyContent a.extiw:active {
+            color: #36b;
+            background: none;
+            padding: 0;
+        }
+        #bodyContent a.external {
+            color: #36b;
+        }
+        /* this can be used in the content area to switch off
+        special external link styling */
+        #bodyContent .plainlinks a {
+            background: none !important;
+            padding: 0 !important;
+        }
+        /*
+        ** Structural Elements
+        */
+
+        /*
+        ** general portlet styles (elements in the quickbar)
+        */
+        .portlet {
+            position:relative;
+            border: none;
+            margin: 0 0 .5em;
+            padding: 0;
+            padding: .5em 0 0 0;
+            float: none;
+            width: 11.6em;
+            overflow: hidden;
+            background: #777 url(rtcorner.png) no-repeat 10.62em top;
+        }
+        .portlet h4 {
+            font-size: 95%;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+        .portlet h5 {
+            color: #fff;
+            background: transparent;
+            padding: 0 1em 0 .5em;
+            display: inline;
+            height: 1em;
+            text-transform: capitalize;
+            font-size: 91%;
+            font-weight: bold;
+            white-space: nowrap;
+            font-variant: small-caps;
+        }
+        .portlet h6 {
+            background: #ffae2e;
+            border: 1px solid #2f6fab;
+            border-style: solid solid none solid;
+            padding: 0 1em 0 1em;
+            text-transform: lowercase;
+            display: block;
+            font-size: 1em;
+            height: 1.2em;
+            font-weight: normal;
+            white-space: nowrap;
+        }
+        .pBody {
+            font-size: 95%;
+            background: #777 url(rbcorner.png) no-repeat bottom right;
+            color: black;
+            border-collapse: collapse;
+            padding: 0 .8em 1em .5em;
+        }
+        .portlet h1,
+        .portlet h2,
+        .portlet h3,
+        .portlet h4 {
+            margin: 0;
+            padding: 0;
+        }
+        .portlet ul {
+            line-height: 1.5em;
+            list-style-type: none;
+            font-size: 95%;
+            list-style-position: inside;
+            list-style-image: none;
+        }
+        .portlet li {
+            width: 9em;
+            height: auto;
+            display: block;
+            padding: .1em 2em;
+            margin: 0 -2em;
+            background: #777 url('data:image/gif;base64,R0lGODlhBgAHAKIAAAAAAN4xKN4yJuAxJeAxKOIvKAAAAAAAACH5BAkKAAYALAAAAAAGAAcAAAMOaLo2w4YEGJ4qYg0CWQIAOw==') .5em center no-repeat;
+        }
+
+        .portlet li a {
+            color: #fff;
+            font-weight:bold;
+        }
+
+        .portlet li:hover {
+            background-color: #fff;
+            color: #000;
+            text-decoration:none;
+        }
+
+        .portlet li:hover a {
+            color: #000;
+            text-decoration:none;
+        }
+
+        .portlet li a:hover {
+            color: #000;
+            text-decoration:none;
+        }
+
+        /*
+        ** Logo properties
+        */
+
+        #p-logo {
+            top: 1em;
+            left: 0;
+            position: absolute; /*needed to use z-index */
+            z-index: 3;
+            height: 155px;
+            overflow: visible;
+            padding: 0;
+            background: none;
+        }
+
+        #p-logo h5 {
+            display: none;
+        }
+        #p-logo a,
+        #p-logo a:hover {
+            display: block;
+            height: 155px;
+            width: 12.2em;
+            background-repeat: no-repeat;
+            background-position: 35% 50% !important;
+            text-decoration: none;
+        }
+
+        /*
+        ** Search portlet
+        */
+        #p-search {
+            position: relative;
+            z-index: 3;
+        }
+        input.searchButton {
+            margin-top: 1px;
+            font-size: 95%;
+        }
+        #searchGoButton {
+            padding-left: .5em;
+            padding-right: .5em;
+            font-weight: bold;
+        }
+        #searchInput {
+            width: 7.9em;
+            margin: 0;
+            font-size: 95%;
+        }
+        #p-search .pBody {
+            padding: .5em .4em .4em .4em;
+            text-align: center;
+        }
+
+        /*
+        ** the personal toolbar
+        */
+        #p-personal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 4;
+            width: 100%;
+            white-space: nowrap;
+            padding: 0;
+            margin: 0;
+            border: none;
+            background: none;
+            overflow: visible;
+            line-height: 1.2em;
+            /*border-bottom: 1px solid #1d5cc8;*/
+        }
+        #p-personal h5 {
+            display: none;
+        }
+        #p-personal .portlet,
+        #p-personal .pBody {
+            z-index: 2;
+            padding: 0;
+            margin: 0;
+            border: none;
+            overflow: visible;
+            background: none;
+        }
+        /* this is the ul contained in the portlet */
+        #p-personal ul {
+            border: none;
+            line-height: 1.4em;
+            color: #FFF;
+            padding: 0 2em 0 3em;
+            margin: 0;
+            text-align: right;
+            list-style: none;
+            z-index: 0;
+            background: #777;
+            cursor: default;
+        }
+        #p-personal li {
+            z-index: 0;
+            border: none;
+            padding: 0;
+            display: inline;
+            color: #2f6fab;
+            margin: 0 0 0 1em;
+            line-height: 1.2em;
+            background: none;
+        }
+        #p-personal li a {
+            text-decoration: none;
+            color: #fff;
+            padding: 0em 0em .2em 0em;
+            background: none;
+        }
+        #p-personal li a:hover {
+            color: #000;
+            background-color: white;
+            text-decoration: none;
+        }
+        #p-personal li.active a:hover {
+            background-color: transparent;
+        }
+        /* the icon in front of the user name, single quotes
+        in bg url to hide it from iemac */
+        li#pt-userpage,
+        li#pt-anonuserpage,
+        li#pt-login {
+            background: url(user.gif) top left no-repeat;
+            padding-left: 20px;
+            text-transform: none;
+        }
+        #p-personal li.active {
+            font-weight: bold;
+        }
+        /*
+        ** the page-related actions- page/talk, edit etc
+        */
+        #p-cactions {
+            position: absolute;
+            top: 1.3em;
+            left: 11.5em;
+            margin: 0;
+            white-space: nowrap;
+            width: 76%;
+            line-height: 1.1em;
+            overflow: visible;
+            background: none;
+            border-collapse: collapse;
+            padding-top: 0em;
+            padding-left: 1em;
+            list-style: none;
+            font-size: 95%;
+        }
+        #p-cactions ul {
+            list-style: none;
+            list-style-image: none;
+            list-style-position: inside;
+        }
+        #p-cactions li {
+            display: inline;
+            border-bottom: none;
+            padding: 0 0 .3em 0;
+            margin: 0 .3em 0 0;
+            overflow: visible;
+        }
+        #p-cactions li.selected {
+            border-color: #fabd23;
+            padding: 0 0 .2em 0;
+            font-weight: bold;
+        }
+        #p-cactions li a {
+            color: #ddd;
+            border: none;
+            padding: .2em 1em .2em 1em;
+            position: relative;
+            z-index: 0;
+            margin: 0 0em;
+            text-decoration: none;
+            background: #777 url(smcorner.png) no-repeat;
+        }
+        #p-cactions li.selected a {
+            color: #000;
+            z-index: 3;
+            background-color: white;
+        }
+        #p-cactions .new a {
+            color: #ffdddd;
+        }
+        #p-cactions li a:hover {
+            z-index: 3;
+            text-decoration: none;
+            background-color: #b90003;
+            color: #fff;
+            font-weight: bold;
+        }
+        #p-cactions h5 {
+            display: none;
+        }
+        #p-cactions li.istalk {
+            margin-right: 0;
+        }
+        #p-cactions li.istalk a {
+            padding-right: .5em;
+        }
+        #p-cactions #ca-addsection a {
+            padding-left: .4em;
+            padding-right: .4em;
+        }
+        /* offsets to distinguish the tab groups */
+        li#ca-talk {
+            margin-right: 1.6em;
+        }
+        li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
+            margin-left: 1.6em;
+        }
+        #p-cactions .pBody {
+            font-size: 1em;
+            background-color: transparent;
+            color: inherit;
+            border-collapse: inherit;
+            border: 0;
+            padding: 0;
+            background-image: none;
+        }
+        #p-cactions .hiddenStructure {
+            display: none;
+        }
+        #p-cactions li a {
+            font-variant: small-caps;
+        }
+
+        /*
+        ** the remaining portlets
+        */
+        #p-tbx,
+        #p-lang {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* TODO: #t-iscite is only used by the Cite extension, come up with some
+        * system which allows extensions to add to this file on the fly
+        */
+        #t-ispermalink, #t-iscite {
+            color: #999;
+        }
+        /*
+        ** footer
+        */
+        #footer {
+            background-color: #777;
+            border-top: 1px dashed #555;
+            border-bottom: 1px dashed #555;
+            margin: .6em 0 1em 0;
+            padding: .4em 0 1.2em 0;
+            text-align: center;
+            font-size: 90%;
+        }
+        #footer li {
+            color: #ddd;
+            display: inline;
+            margin: 0 1.3em;
+        }
+
+        #footer a {
+            color: #fff;
+        }
+
+        #f-poweredbyico, #f-copyrightico {
+            margin: 0 8px;
+            position: relative;
+            top: -2px; /* Bump it up just a tad */
+        }
+        #f-poweredbyico {
+            float: right;
+            height: 1%;
+        }
+        #f-copyrightico {
+            float: left;
+            height: 1%;
+        }
+
+        /* js pref toc */
+        #preftoc {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            clear: both;
+        }
+        #preftoc li {
+            background-color: #f0f0f0;
+            color: #000;
+        }
+        #preftoc li {
+            margin: 1px -2px 1px 2px;
+            float: left;
+            padding: 2px 0 3px 0;
+            border: 1px solid #fff;
+            border-right-color: #716f64;
+            border-bottom: 0;
+            position: relative;
+            white-space: nowrap;
+            list-style-type: none;
+            list-style-image: none;
+            z-index: 3;
+        }
+        #preftoc li.selected {
+            font-weight: bold;
+            background-color: #f9f9f9;
+            border: 1px solid #aaa;
+            border-bottom: none;
+            cursor: default;
+            top: 1px;
+            padding-top: 2px;
+            margin-right: -3px;
+        }
+        #preftoc > li.selected {
+            top: 2px;
+        }
+        #preftoc a,
+        #preftoc a:active {
+            display: block;
+            color: #000;
+            padding: 0 .7em;
+            position: relative;
+            text-decoration: none;
+        }
+        #preftoc li.selected a {
+            cursor: default;
+            text-decoration: none;
+        }
+        #prefcontrol {
+            padding-top: 2em;
+            clear: both;
+        }
+        #preferences {
+            margin: 0;
+            border: 1px solid #aaa;
+            clear: both;
+            padding: 1.5em;
+            background-color: #F9F9F9;
+        }
+        .prefsection {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+        .prefsection fieldset {
+            border: 1px solid #aaa;
+            float: left;
+            margin-right: 2em;
+        }
+        .prefsection legend {
+            font-weight: bold;
+        }
+        .prefsection table, .prefsection legend {
+            background-color: #F9F9F9;
+        }
+        .mainLegend {
+            display: none;
+        }
+        div.prefsectiontip {
+            font-size: x-small;
+            padding: .2em 2em;
+            color: #666;
+        }
+        .btnSavePrefs {
+            font-weight: bold;
+            padding-left: .3em;
+            padding-right: .3em;
+        }
+
+        .preferences-login {
+            clear: both;
+            margin-bottom: 1.5em;
+        }
+
+        .prefcache {
+            font-size: 90%;
+            margin-top: 2em;
+        }
+
+        div#userloginForm form,
+        div#userlogin form#userlogin2 {
+            margin: 0 3em 1em 0;
+            border: 1px solid #aaa;
+            clear: both;
+            padding: 1.5em 2em;
+            background-color: #f9f9f9;
+            float: left;
+        }
+        .rtl div#userloginForm form,
+        .rtl div#userlogin form#userlogin2 {
+            float: right;
+        }
+
+        div#userloginForm table,
+        div#userlogin form#userlogin2 table {
+            background-color: #f9f9f9;
+        }
+
+        div#userloginForm h2,
+        div#userlogin form#userlogin2 h2 {
+            padding-top: 0;
+        }
+
+        div#userlogin .captcha,
+        div#userloginForm .captcha {
+            border: 1px solid #bbb;
+            padding: 1.5em 2em;
+            background-color: white;
+        }
+
+        #loginend, #signupend {
+            clear: both;
+        }
+
+        #userloginprompt, #languagelinks {
+            font-size: 85%;
+        }
+
+        #login-sectiontip {
+            font-size: 85%;
+            line-height: 1.2;
+            padding-top: 2em;
+        }
+
+        #userlogin .loginText, #userlogin .loginPassword {
+            width: 12em;
+        }
+
+        #userloginlink a, #wpLoginattempt, #wpCreateaccount {
+            font-weight: bold;
+        }
+
+        /*
+        ** IE/Mac fixes, hope to find a validating way to move this
+        ** to a separate stylesheet. This would work but doesn't validate:
+        ** @import("IEMacFixes.css");
+        */
+        /* tabs: border on the a, not the div */
+        * > html #p-cactions li { border: none; }
+        * > html #p-cactions li a {
+            border: 1px solid #aaa;
+            border-bottom: none;
+        }
+        * > html #p-cactions li.selected a { border-color: #fabd23; }
+        /* footer icons need a fixed width */
+        * > html #f-poweredbyico,
+        * > html #f-copyrightico { width: 88px; }
+        * > html #bodyContent,
+        * > html #bodyContent pre {
+            overflow-x: auto;
+            width: 100%;
+            padding-bottom: 25px;
+        }
+
+        /* more IE fixes */
+        /* float/negative margin brokenness */
+        * html #footer {margin-top: 0;}
+        * html #column-content {
+            display: inline;
+            margin-bottom: 0;
+        }
+        * html div.editsection { font-size: smaller; }
+        #pagehistory li.selected { position: relative; }
+
+        /* Mac IE 5.0 fix; floated content turns invisible */
+        * > html #column-content {
+            float: none;
+        }
+        * > html #column-one {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        * > html #footer {
+            margin-left: 13.2em;
+        }
+        .redirectText {
+            font-size: 150%;
+            margin: 5px;
+        }
+
+        .printfooter {
+            display: none;
+        }
+
+        .not-patrolled {
+            background-color: #ffa;
+        }
+        div.patrollink {
+            clear: both;
+            font-size: 75%;
+            text-align: right;
+        }
+        span.newpage, span.minor, span.bot {
+            font-weight: bold;
+        }
+        span.unpatrolled {
+            font-weight: bold;
+            color: red;
+        }
+
+        .sharedUploadNotice {
+            font-style: italic;
+        }
+
+        span.updatedmarker {
+            color: black;
+            background-color: #0f0;
+        }
+
+        table.gallery {
+            border: 1px solid #ccc;
+            margin: 2px;
+            padding: 2px;
+            background-color: white;
+        }
+
+        table.gallery tr {
+            vertical-align: top;
+        }
+
+        table.gallery td {
+            vertical-align: top;
+            background-color: #f9f9f9;
+            border: solid 2px white;
+        }
+        /* Keep this temporarily so that cached pages will display right */
+        table.gallery td.galleryheader {
+            text-align: center;
+            font-weight: bold;
+        }
+        table.gallery caption {
+            font-weight: bold;
+        }
+
+        div.gallerybox {
+            margin: 2px;
+        }
+
+        div.gallerybox div.thumb {
+            text-align: center;
+            border: 1px solid #ccc;
+            margin: 2px;
+        }
+
+        div.gallerytext {
+            overflow: hidden;
+            font-size: 94%;
+            padding: 2px 4px;
+        }
+
+        span.comment {
+            font-style: italic;
+        }
+
+        span.changedby {
+            font-size: 95%;
+        }
+
+        .previewnote {
+            text-indent: 3em;
+            color: #c00;
+            border-bottom: 1px solid #aaa;
+            padding-bottom: 1em;
+            margin-bottom: 1em;
+        }
+
+        .previewnote p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .editExternally {
+            border: 1px solid gray;
+            background-color: #ffffff;
+            padding: 3px;
+            margin-top: 0.5em;
+            float: left;
+            font-size: small;
+            text-align: center;
+        }
+        .editExternallyHelp {
+            font-style: italic;
+            color: gray;
+        }
+
+        .toggle {
+            margin-left: 2em;
+            text-indent: -2em;
+        }
+
+        /* Classes for EXIF data display */
+        table.mw_metadata {
+            font-size: 0.8em;
+            margin-left: 0.5em;
+            margin-bottom: 0.5em;
+            width: 300px;
+        }
+
+        table.mw_metadata caption {
+            font-weight: bold;
+        }
+
+        table.mw_metadata th {
+            font-weight: normal;
+        }
+
+        table.mw_metadata td {
+            padding: 0.1em;
+        }
+
+        table.mw_metadata {
+            border: none;
+            border-collapse: collapse;
+        }
+
+        table.mw_metadata td, table.mw_metadata th {
+            text-align: center;
+            border: 1px solid #aaaaaa;
+            padding-left: 0.1em;
+            padding-right: 0.1em;
+        }
+
+        table.mw_metadata th {
+            background-color: #f9f9f9;
+        }
+
+        table.mw_metadata td {
+            background-color: #fcfcfc;
+        }
+
+        table.collapsed tr.collapsable {
+            display: none;
+        }
+
+
+        /* filetoc */
+        ul#filetoc {
+            text-align: center;
+            border: 1px solid #aaaaaa;
+            background-color: #f9f9f9;
+            padding: 5px;
+            font-size: 95%;
+            margin-bottom: 0.5em;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        #filetoc li {
+            display: inline;
+            list-style-type: none;
+            padding-right: 2em;
+        }
+
+        input#wpSummary {
+            width: 80%;
+        }
+
+        /* @bug 1714 */
+        input#wpSave, input#wpDiff {
+            margin-right: 0.33em;
+        }
+
+        #wpSave {
+            font-weight: bold;
+        }
+
+        /* Classes for article validation */
+
+        table.revisionform_default {
+            border: 1px solid #000000;
+        }
+
+        table.revisionform_focus {
+            border: 1px solid #000000;
+            background-color:#00BBFF;
+        }
+
+        tr.revision_tr_default {
+            background-color:#EEEEEE;
+        }
+
+        tr.revision_tr_first {
+            background-color:#DDDDDD;
+        }
+
+        p.revision_saved {
+            color: green;
+            font-weight:bold;
+        }
+
+        #mw_trackbacks {
+            border: solid 1px #bbbbff;
+            background-color: #eeeeff;
+            padding: 0.2em;
+        }
+
+
+        /* Allmessages table */
+
+        #allmessagestable th {
+            background-color: #b2b2ff;
+        }
+
+        #allmessagestable tr.orig {
+            background-color: #ffe2e2;
+        }
+
+        #allmessagestable tr.new {
+            background-color: #e2ffe2;
+        }
+
+        #allmessagestable tr.def {
+            background-color: #f0f0ff;
+        }
+
+
+        /* noarticletext */
+        div.noarticletext {
+            border: 1px solid #ccc;
+            background: #fff;
+            padding: .2em 1em;
+            color: #000;
+        }
+
+        div#searchTargetContainer {
+            left:       10px;
+            top:        10px;
+            width:      90%;
+            background: white;
+        }
+
+        div#searchTarget {
+            padding:    3px;
+            margin:     5px;
+            background: #F0F0F0;
+            border:     solid 1px blue;
+        }
+
+        div#searchTarget ul li {
+            list-style: none;
+        }
+
+        div#searchTarget ul li:before {
+            color: #FFA500;
+            content: "\00BB \0020";
+        }
+
+        div#searchTargetHide {
+            float:right;
+            border:solid 1px black;
+            background:#DCDCDC;
+            padding:2px;
+        }
+
+        div.multipageimagenavbox {
+        border: solid 1px silver;
+        padding: 4px;
+        margin: 1em;
+        background: #f0f0f0;
+        }
+
+        div.multipageimagenavbox div.thumb {
+        border: none;
+        margin-left: 2em;
+        margin-right: 2em;
+        }
+
+        div.multipageimagenavbox hr {
+        margin: 6px;
+        }
+
+        table.multipageimage td {
+        text-align: center;
+        }
+
+        /** Special:Version */
+
+        table#sv-ext, table#sv-hooks, table#sv-software {
+            margin: 1em;
+            padding:0em;
+        }
+
+        #sv-ext td, #sv-hooks td, #sv-software td,
+        #sv-ext th, #sv-hooks th, #sv-software th {
+            border: 1px solid #A0A0A0;
+            padding: 0 0.15em 0 0.15em;
+        }
+        #sv-ext th, #sv-hooks th, #sv-software th {
+            background-color: #F0F0F0;
+            color: black;
+            padding: 0 0.15em 0 0.15em;
+        }
+        tr.sv-space{
+            height: 0.8em;
+            border:none;
+        }
+        tr.sv-space td { display: none; }
+
+        /*
+        Table pager (e.g. Special:Imagelist)
+        - remove underlines from the navigation link
+        - collapse borders
+        - set the borders to outsets (similar to Special:Allmessages)
+        - remove line wrapping for all td and th, set background color
+        - restore line wrapping for the last two table cells (description and size)
+        */
+        .TablePager_nav a { text-decoration: none; }
+        .TablePager { border-collapse: collapse; }
+        .TablePager, .TablePager td, .TablePager th {
+            border: 1px solid #aaaaaa;
+            padding: 0 0.15em 0 0.15em;
+        }
+        .TablePager th { background-color: #eeeeff }
+        .TablePager td { background-color: #ffffff }
+        .TablePager tr:hover td { background-color: #eeeeff }
+
+        .imagelist td, .imagelist th { white-space: nowrap }
+        .imagelist .TablePager_col_links { background-color: #eeeeff }
+        .imagelist .TablePager_col_img_description { white-space: normal }
+        .imagelist th.TablePager_sort { background-color: #ccccff }
+
+        .templatesUsed { margin-top: 1.5em; }
+
+        .mw-summary-preview {
+            margin: 0.1em 0;
+        }
+
+        /* Friendlier slave lag warnings */
+        div.mw-lag-warn-normal,
+        div.mw-lag-warn-high {
+            padding: 3px;
+            text-align: center;
+            margin: 3px auto;
+        }
+        div.mw-lag-warn-normal {
+            border: 1px solid #FFCC66;
+            background-color: #FFFFCC;
+        }
+        div.mw-lag-warn-high {
+            font-weight: bold;
+            border: 2px solid #FF0033;
+            background-color: #FFCCCC;
+        }
+
+        /* Recreating-deleted-page/reupload file warning and log entries */
+        div#mw-upload-deleted-warn,
+        div#mw-recreate-deleted-warn {
+            padding: 3px;
+            margin-bottom: 3px;
+            border: 2px solid #2F6FAB;
+        }
+        div#mw-upload-deleted-warn ul li,
+        div#mw-recreate-deleted-warn ul li {
+            font-size: 90%;
+        }
+        .MediaTransformError {
+            background-color: #ccc;
+            padding: 0.1em;
+        }
+        .MediaTransformError td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 90%;
+        }
+
+        /** Special:Search stuff */
+        div#mw-search-interwiki-caption {
+            text-align: center;
+            font-weight: bold;
+            font-size: 95%;
+        }
+
+        .mw-search-interwiki-project {
+            font-size: 97%;
+            text-align: left;
+            padding-left: 0.2em;
+            padding-right: 0.15em;
+            padding-bottom: 0.2em;
+            padding-top: 0.15em;
+            background: #cae8ff;
+        }
+
+        span.searchmatch {
+            font-weight: bold;
+            color: red;
+        }
+
+        /* God-damned hack for the crappy layout */
+        .os-suggest {
+            font-size: 127%;
+        }
+
+        span.codeInline {
+            font-family: monospace;
+        }
+
+        ul.h2-navlinks {
+            list-style-image: none;
+            list-style-type: none;
+            background: none;
+            list-style: none;
+            display: none;
+            float: right;
+            padding:0;
+            margin: 0;
+            margin-bottom: -1em;
+        }
+
+        ul.h2-navlinks li {
+            display: none;
+            list-style: none;
+            padding-left: .6em;
+            padding-right: .4em;
+            border-left: 1px solid #999;
+        }
+        ul.h2-navlinks li.first {
+            border: none;
+        }
+
+        span.codeInline {
+            font-family: monospace;
+            white-space: nowrap;
+        }
+
+        span.code {
+            white-space: nowrap;
+            font-family: monospace;
+        }
+
+        table#toc.toc {
+            z-index: 3;
+        }
+
+        pre.de1 {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            _white-space: pre;
+        }
+
+        span.menuPath {
+            color: #598527;
+        }
+
+        #codesig div.cpp, #codesig div.delphi, #vclinfo div.cpp, #vclinfo div.delphi {
+            display: block;
+            padding: 3px 3px 3px 15px;
+        }
+
+        td div.cpp {
+            background: #f9f9ff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpirKvbxwAELkDcAcTGQHyPBUgoAfEqIN4DxBUgFSDBUCAWBOJ0IH4PEmRiwAJYoNpAYCYQz4KpPAvEYVBLdgNxOUCAAQA2SQvcaJpJCwAAAABJRU5ErkJggg==') no-repeat 3px center;
+            text-align: left;
+        }
+
+        td div.delphi {
+            background: #fff9f9 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpi3Nrff5eBgUEJiN8D8VkgDmOCCnSCOFD2KpAgCLwvLCzcA6RXA7ELTBAZvIcJCvb397sA6TSQaiaoBeUgs6DaKwACDACm+RHfdthcsgAAAABJRU5ErkJggg==') no-repeat 3px center;
+            text-align: left;
+        }
+
+        table#vclinfo {
+            display: block;
+            border: 0;
+        }
+
+        table#vclinfo tr{
+            width: 100%;
+            background: #fdfdfd;
+            border: 0;
+        }
+        table#vclinfo td{
+            background: #fdfdfd;
+            padding: 5px;
+            margin: 0;
+            border: 0;
+            border-left: 1px solid #888;;
+            text-align: center;
+            vertical-align: top;
+        }
+        table#vclinfo td.wide{
+            width: 25%;
+        }
+        table#vclinfo tr.vclinfot th{
+            border-bottom:1px solid #888;
+        }
+        table#vclinfo td.vclinfol {
+            border-left: 0px;
+        }
+
+        table#vclinfo span.delphi, table#vclinfo
+        span.cpp {
+            display: block;
+            clear: both;
+        }
+
+        #codesig {
+            display: block;
+            background: none;
+        }
+        #codesig .sig{
+            display: block;
+            z-index:2;
+        }
+
+        #codesig .lang{
+            float: left;
+            padding: 5px;
+            z-index:10;
+            position: relative;
+        }
+
+        #codesig .sig .thesig{
+            margin-left: 60px;
+            background: #f3f3f3;
+            padding: 5px;
+        }
+
+        #codesig .sig div.delphi,#codesig .sig div.cpp {
+            margin:0;
+            padding:0;
+        }
+
+        #codesig .sig pre {
+            padding: 0;
+            border: none;
+            background: none;
+        }
+
+        div.delphi span.lang {
+            color: #800;
+            font-weight: bold;
+        }
+
+        div.cpp span.lang {
+            color: #008;
+            font-weight: bold;
+        }
+
+        #toggles {
+            float: right;
+            position: relative;
+            display: block;
+            background: none;
+            color: #fff;
+            font-family: Helvetica, Arial;
+            font-weight: bold;
+            font-size: .85em;
+        }
+
+        #toggles #dtoggle, #toggles #ctoggle {
+            color: #fff;
+            padding: 1px 10px 1px 10px;
+        }
+
+        #displayPrefs, #displayPrefTab {
+            display: block;
+            background: #E13935;
+            padding: 1px 10px 1px 10px;
+            text-align: right;
+        }
+
+        #displayPrefs {
+            display: none;
+            clear: both;
+        }
+
+        #displayPrefTab {
+            width: auto;
+            color: #fff;
+        }
+
+        ul#childlinks {
+        list-style-image: none;
+        list-style-type: none;
+        list-style-position: inside;
+        border-top: 1px solid #777;
+        display: block;
+        background: #FCFCFC;
+        margin: -14px 0 0 0;
+        padding: 0 0 0 10px;
+        text-align: left;
+        }
+
+        ul#childlinks li {
+        display: inline;
+        margin: 0;
+        padding: 0 10px 3px 10px;
+        border-left: 1px solid #eee;
+        }
+
+        ul#childlinks li:hover {
+        background: #fff;
+        }
+
+        ul#childlinks li.first {
+        border: none;
+        }
+
+        ul#childlinks li a {
+        color: #000;
+        font-weight: normal;
+        }
+
+        ul#childlinks li a {
+        color: #000;
+        }
+
+        span#inherits {
+        background: #F2F2FF;
+        color: #222;
+        font-size: .85em;
+        font-style: italic;
+        padding: 3px 10px 3px 10px;
+        }
+
+        table.long {
+        width: 90%;
+        border: none;
+        border-collapse: collapse;
+        }
+
+        table.long tr {
+        background-color: none;
+        height: 1.5em;
+        font-size: 1em;
+        padding: 5px;
+        }
+
+        table.long tr td {
+        background: none;
+        border: none;
+        padding: 3px 5px 3px 20px;
+        }
+
+        table.long tr.alt td {
+        background-color: #f3f3f3;
+        }
+
+        table.long tr.over td {
+        background-color: #696969;
+        color #fff;
+        }
+
+        table.long tr.over code {
+        background-color: #696969;
+        color: #fff;
+        }
+
+        table.long tr.over td a {
+        color: #C6D5FE;
+        }
+
+        table.long tr td:first-child {
+        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIZJREFUeNpi2drf/58BAu4BcScQz/osKQnipwGx8bVrYquBdAeIDVLDBFWsDMQgiZlQCRAIhRqyCkq7AnE6E5LpFVC2C5SGaRQEKQTiPSAM0wCTAIH3UE1nGbAAFiitBMTlUPYeKHsPFDNAnToLxIDZcBfqBFeo81ygikG2hEHldoMMAggwAKBfH6mEmRE3AAAAAElFTkSuQmCC') no-repeat 3px center;
+        width: 220px;
+        }
+
+        table.long tr.alt td:first-child {
+        background: #f3f3f3 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIZJREFUeNpi2drf/58BAu4BcScQz/osKQnipwGx8bVrYquBdAeIDVLDBFWsDMQgiZlQCRAIhRqyCkq7AnE6E5LpFVC2C5SGaRQEKQTiPSAM0wCTAIH3UE1nGbAAFiitBMTlUPYeKHsPFDNAnToLxIDZcBfqBFeo81ygikG2hEHldoMMAggwAKBfH6mEmRE3AAAAAElFTkSuQmCC') no-repeat 3px center;
+        width: 220px;
+        }
+
+        table.long tr.over td:first-child{
+            background: #696969 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIZJREFUeNpi2drf/58BAu4BcScQz/osKQnipwGx8bVrYquBdAeIDVLDBFWsDMQgiZlQCRAIhRqyCkq7AnE6E5LpFVC2C5SGaRQEKQTiPSAM0wCTAIH3UE1nGbAAFiitBMTlUPYeKHsPFDNAnToLxIDZcBfqBFeo81ygikG2hEHldoMMAggwAKBfH6mEmRE3AAAAAElFTkSuQmCC') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.delphi td:first-child{
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpi3Nrff5eBgUEJiN8D8VkgDmOCCnSCOFD2KpAgCLwvLCzcA6RXA7ELTBAZvIcJCvb397sA6TSQaiaoBeUgs6DaKwACDACm+RHfdthcsgAAAABJRU5ErkJggg==') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.delphi.alt td:first-child{
+            background: #f3f3f3 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpi3Nrff5eBgUEJiN8D8VkgDmOCCnSCOFD2KpAgCLwvLCzcA6RXA7ELTBAZvIcJCvb397sA6TSQaiaoBeUgs6DaKwACDACm+RHfdthcsgAAAABJRU5ErkJggg==') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.delphi.over td:first-child{
+            background: #696969 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpi3Nrff5eBgUEJiN8D8VkgDmOCCnSCOFD2KpAgCLwvLCzcA6RXA7ELTBAZvIcJCvb397sA6TSQaiaoBeUgs6DaKwACDACm+RHfdthcsgAAAABJRU5ErkJggg==') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.cpp td:first-child{
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpirKvbxwAELkDcAcTGQHyPBUgoAfEqIN4DxBUgFSDBUCAWBOJ0IH4PEmRiwAJYoNpAYCYQz4KpPAvEYVBLdgNxOUCAAQA2SQvcaJpJCwAAAABJRU5ErkJggg==') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.cpp.alt td:first-child{
+            background: #f3f3f3 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpirKvbxwAELkDcAcTGQHyPBUgoAfEqIN4DxBUgFSDBUCAWBOJ0IH4PEmRiwAJYoNpAYCYQz4KpPAvEYVBLdgNxOUCAAQA2SQvcaJpJCwAAAABJRU5ErkJggg==') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.cpp.over td:first-child{
+            background: #696969 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAGCAYAAAAL+1RLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAEtJREFUeNpirKvbxwAELkDcAcTGQHyPBUgoAfEqIN4DxBUgFSDBUCAWBOJ0IH4PEmRiwAJYoNpAYCYQz4KpPAvEYVBLdgNxOUCAAQA2SQvcaJpJCwAAAABJRU5ErkJggg==') no-repeat 3px center;
+            width: 220px;
+        }
+
+
+        table.long tr.cpp.delphi td:first-child{
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIZJREFUeNpi2drf/58BAu4BcScQz/osKQnipwGx8bVrYquBdAeIDVLDBFWsDMQgiZlQCRAIhRqyCkq7AnE6E5LpFVC2C5SGaRQEKQTiPSAM0wCTAIH3UE1nGbAAFiitBMTlUPYeKHsPFDNAnToLxIDZcBfqBFeo81ygikG2hEHldoMMAggwAKBfH6mEmRE3AAAAAElFTkSuQmCC') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.cpp.delphi.alt td:first-child{
+            background: #f3f3f3 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIZJREFUeNpi2drf/58BAu4BcScQz/osKQnipwGx8bVrYquBdAeIDVLDBFWsDMQgiZlQCRAIhRqyCkq7AnE6E5LpFVC2C5SGaRQEKQTiPSAM0wCTAIH3UE1nGbAAFiitBMTlUPYeKHsPFDNAnToLxIDZcBfqBFeo81ygikG2hEHldoMMAggwAKBfH6mEmRE3AAAAAElFTkSuQmCC') no-repeat 3px center;
+            width: 220px;
+        }
+
+        table.long tr.cpp.delphi.over td:first-child{
+            background: #696969 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAGCAYAAAD37n+BAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIZJREFUeNpi2drf/58BAu4BcScQz/osKQnipwGx8bVrYquBdAeIDVLDBFWsDMQgiZlQCRAIhRqyCkq7AnE6E5LpFVC2C5SGaRQEKQTiPSAM0wCTAIH3UE1nGbAAFiitBMTlUPYeKHsPFDNAnToLxIDZcBfqBFeo81ygikG2hEHldoMMAggwAKBfH6mEmRE3AAAAAElFTkSuQmCC') no-repeat 3px center;
+            width: 220px;
+        }
+        span.short {
+        display:none;
+        }
+        div#ex-uses {
+        display: block;
+        padding: 5px;
+        margin: -1.2em 0 0 0;
+        background: #EEF;
+        border-top: 1px solid #DDD;
+        border-bottom: 1px solid #DDD;
+        }
+
+        div#ex-uses h3 {
+        display: inline;
+        font-size:1em;
+        }
+
+        div#ex-uses ul {
+            display: inline;
+            margin: 0 1.5em 0 .5em;
+        }
+
+        div#ex-uses ul li {
+            display: inline;
+            margin: 0 0 0 .5em;
+            padding: 0;
+
+        }
+
+        tr.protected {
+            display:none;
+        }
+        #lstfilter {
+            border: 1px solid #d1d1d1;
+            width: 18.5em;
+            text-align: center;
+            margin: .3em;
+            padding: .3em 1em;
+            color: #666;
+            font-weight: bold;
+            font-size: .8em;
+            background: #fee;
+            border-radius: 3px;
+        }
+        #protecttoggle {
+            display: none;
+            border: 1px solid #d1d1d1;
+            width: 18.5em;
+            text-align: center;
+            margin: .3em;
+            padding: .3em 1em;
+            color: #666;
+            font-weight: bold;
+            font-size: .8em;
+            background: #fee;
+            border-radius: 3px;
+        }
+
+        /* Hide Appmethod-specific content */
+        .appmethod {
+            display: none;
+        }
+
+        /* geshi.css *********************************************************/
+
+        .source-delphi {line-height: normal;}
+        .source-delphi li, .source-delphi pre {
+            line-height: normal; border: 0px none white;
+        }
+        .delphi.source-delphi .de1, .delphi.source-delphi .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+        .delphi.source-delphi  {font-family:monospace;}
+        .delphi.source-delphi .imp {font-weight: bold; color: red;}
+        .delphi.source-delphi li, .delphi.source-delphi .li1 {font-weight: normal; vertical-align:top;}
+        .delphi.source-delphi .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+        .delphi.source-delphi .li2 {font-weight: bold; vertical-align:top;}
+        .delphi.source-delphi .kw1 {color: #000000; font-weight: bold;}
+        .delphi.source-delphi .kw2 {color: #000000; font-weight: bold;}
+        .delphi.source-delphi .kw3 {color: #000066;}
+        .delphi.source-delphi .kw4 {color: #000066; font-weight: bold;}
+        .delphi.source-delphi .co1 {color: #808080; font-style: italic;}
+        .delphi.source-delphi .co2 {color: #008000; font-style: italic;}
+        .delphi.source-delphi .coMULTI {color: #808080; font-style: italic;}
+        .delphi.source-delphi .es0 {color: #ff0000; font-weight: bold;}
+        .delphi.source-delphi .br0 {color: #000066;}
+        .delphi.source-delphi .sy0 {color: #000066;}
+        .delphi.source-delphi .sy1 {color: #000066;}
+        .delphi.source-delphi .sy2 {color: #000066;}
+        .delphi.source-delphi .sy3 {color: #000066;}
+        .delphi.source-delphi .st0 {color: #ff0000;}
+        .delphi.source-delphi .nu0 {color: #0000ff;}
+        .delphi.source-delphi .me1 {color: #006600;}
+        .delphi.source-delphi .re0 {color: #9ac;}
+        .delphi.source-delphi .re1 {color: #ff0000;}
+        .delphi.source-delphi .ln-xtra, .delphi.source-delphi li.ln-xtra, .delphi.source-delphi div.ln-xtra {background-color: #ffc;}
+        .delphi.source-delphi span.xtra { display:block; }
+        .source-cpp {line-height: normal;}
+        .source-cpp li, .source-cpp pre {
+            line-height: normal; border: 0px none white;
+        }
+        .cpp.source-cpp .de1, .cpp.source-cpp .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+        .cpp.source-cpp  {font-family:monospace;}
+        .cpp.source-cpp .imp {font-weight: bold; color: red;}
+        .cpp.source-cpp li, .cpp.source-cpp .li1 {font-weight: normal; vertical-align:top;}
+        .cpp.source-cpp .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+        .cpp.source-cpp .li2 {font-weight: bold; vertical-align:top;}
+        .cpp.source-cpp .kw1 {color: #0000ff;}
+        .cpp.source-cpp .kw2 {color: #0000ff;}
+        .cpp.source-cpp .kw3 {color: #0000dd;}
+        .cpp.source-cpp .kw4 {color: #0000ff;}
+        .cpp.source-cpp .co1 {color: #666666;}
+        .cpp.source-cpp .co2 {color: #339900;}
+        .cpp.source-cpp .coMULTI {color: #ff0000; font-style: italic;}
+        .cpp.source-cpp .es0 {color: #000099; font-weight: bold;}
+        .cpp.source-cpp .es1 {color: #000099; font-weight: bold;}
+        .cpp.source-cpp .es2 {color: #660099; font-weight: bold;}
+        .cpp.source-cpp .es3 {color: #660099; font-weight: bold;}
+        .cpp.source-cpp .es4 {color: #660099; font-weight: bold;}
+        .cpp.source-cpp .es5 {color: #006699; font-weight: bold;}
+        .cpp.source-cpp .br0 {color: #008000;}
+        .cpp.source-cpp .sy0 {color: #008000;}
+        .cpp.source-cpp .sy1 {color: #000080;}
+        .cpp.source-cpp .sy2 {color: #000040;}
+        .cpp.source-cpp .sy3 {color: #000040;}
+        .cpp.source-cpp .sy4 {color: #008080;}
+        .cpp.source-cpp .st0 {color: #FF0000;}
+        .cpp.source-cpp .nu0 {color: #0000dd;}
+        .cpp.source-cpp .nu6 {color: #208080;}
+        .cpp.source-cpp .nu8 {color: #208080;}
+        .cpp.source-cpp .nu12 {color: #208080;}
+        .cpp.source-cpp .nu16 {color:#800080;}
+        .cpp.source-cpp .nu17 {color:#800080;}
+        .cpp.source-cpp .nu18 {color:#800080;}
+        .cpp.source-cpp .nu19 {color:#800080;}
+        .cpp.source-cpp .me1 {color: #007788;}
+        .cpp.source-cpp .me2 {color: #007788;}
+        .cpp.source-cpp .ln-xtra, .cpp.source-cpp li.ln-xtra, .cpp.source-cpp div.ln-xtra {background-color: #ffc;}
+        .cpp.source-cpp span.xtra { display:block; }
+        .source-sql {line-height: normal;}
+        .source-sql li, .source-sql pre {
+            line-height: normal; border: 0px none white;
+        }
+        .sql.source-sql .de1, .sql.source-sql .de2 {font: normal normal 1em/1.2em monospace; margin:0; padding:0; background:none; vertical-align:top;}
+        .sql.source-sql  {font-family:monospace;}
+        .sql.source-sql .imp {font-weight: bold; color: red;}
+        .sql.source-sql li, .sql.source-sql .li1 {font-weight: normal; vertical-align:top;}
+        .sql.source-sql .ln {width:1px;text-align:right;margin:0;padding:0 2px;vertical-align:top;}
+        .sql.source-sql .li2 {font-weight: bold; vertical-align:top;}
+        .sql.source-sql .kw1 {color: #993333; font-weight: bold;}
+        .sql.source-sql .co1 {color: #808080; font-style: italic;}
+        .sql.source-sql .coMULTI {color: #808080; font-style: italic;}
+        .sql.source-sql .es0 {color: #000099; font-weight: bold;}
+        .sql.source-sql .br0 {color: #66cc66;}
+        .sql.source-sql .sy0 {color: #66cc66;}
+        .sql.source-sql .st0 {color: #ff0000;}
+        .sql.source-sql .nu0 {color: #cc66cc;}
+        .sql.source-sql .ln-xtra, .sql.source-sql li.ln-xtra, .sql.source-sql div.ln-xtra {background-color: #ffc;}
+        .sql.source-sql span.xtra { display:block; }
+    </style>
+  </head>
+  <body>
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content">
+          <a id="top"></a>
+          <h1 id="firstHeading" class="firstHeading"><span dir="ltr">FMX.ListViewCustomAdapter</span></h1>
+          <div id="bodyContent" class="mw-body">
+            <div id="contentSub"></div>
+            <div class="mw-content-ltr" dir="ltr" id="mw-content-text" lang="en"><p>This sample illustrates how to create a custom <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.Adapters.Base.TAbstractListViewAdapter" title="lib en:FMX.ListView.Adapters.Base.TAbstractListViewAdapter">list view adapter</a>.
+</p>
+
+<h2> <span class="mw-headline" id="Location">Location</span></h2>
+<p>You can find the <b>CustomAdapter</b> sample project at:
+</p>
+<ul><li> <font color="#598527"><b>Start |  Programs |  Embarcadero RAD Studio Berlin |  Samples</b></font> and navigate to:
+<ul><li> <code class="path">Object Pascal\Multi-Device Samples\User Interface\ListView\CustomAdapter</code>
+</li></ul>
+</li><li> <b>Subversion Repository:</b>
+<ul><li> <a target="_blank" class="external free" href="http://sourceforge.net/p/radstudiodemos/code/HEAD/tree/branches/RADStudio_Berlin/Object%20Pascal/Multi-Device%20Samples/User%20Interface/ListView/CustomAdapter" rel="nofollow">http://sourceforge.net/p/radstudiodemos/code/HEAD/tree/branches/RADStudio_Berlin/Object%20Pascal/Multi-Device%20Samples/User%20Interface/ListView/CustomAdapter</a>
+</li></ul>
+</li></ul>
+<h2> <span class="mw-headline" id="Description">Description</span></h2>
+<p>The <b>CustomAdapter</b> sample shows how to create a custom <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.Adapters.Base.TAbstractListViewAdapter" title="lib en:FMX.ListView.Adapters.Base.TAbstractListViewAdapter">list view adapter</a>. This specific implementation of a custom adapter obtains image files from a remote server.
+</p>
+<h2> <span class="mw-headline" id="How_to_Run_the_Sample">How to Run the Sample</span></h2>
+<ol><li> Run the server:
+<ol><li> <a target="_blank" class="external text" href="https://www.python.org/downloads/" rel="nofollow">Install Python 2</a> to run the server script.
+</li><li> On the project folder, open <code class="path">server.py</code> using a text editor, and update the values of the <code>HOST</code> and <code>PORT</code> variables.
+<dl><dd> <b>Notes:</b>
+<ul><li> The default values should let you test this sample application on your development PC.
+</li><li> To run this sample application on a mobile device, you must update <code>HOST</code> so that it contains the IP address where your mobile devices can reach your development PC.
+</li><li> If the default post is busy in your development PC, you must change the value of <code>PORT</code>.
+</li></ul>
+</dd></dl>
+</li><li> Run <code class="path">server.py</code>.
+</li></ol>
+</li><li> Run the sample application:
+<ol><li> Open the sample application project file.
+</li><li> Open the main form of the sample application in the <a class="extiw" href="http://docwiki.embarcadero.com/RADStudio/Berlin/en/Code_Editor" title="rad en:Code Editor">Code Editor</a> and update the value of the <code>Host</code> constant, so that the host and port match those that you configured on the server script.
+</li><li> Run the sample application.
+</li></ol>
+</li></ol>
+<h2> <span class="mw-headline" id="How_It_Works">How It Works</span></h2>
+<p>After you start this sample application, it displays the following form:
+</p><p><img alt="ListViewCustomAdapterFirstExecution.png" height="486" src="data:image/png;base64,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" width="600"/>
+</p><p>Click the <b>Load Pictured</b> button to load 30 list view items from the custom list view adapter.
+</p>
+<h2> <span class="mw-headline" id="See_Also">See Also</span></h2>
+<ul><li> <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.TAdapterListView.Adapter" title="lib en:FMX.ListView.TAdapterListView.Adapter">FMX.ListView.TListView.Adapter</a>
+</li><li> <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.Adapters.Base.TAbstractListViewAdapter" title="lib en:FMX.ListView.Adapters.Base.TAbstractListViewAdapter">FMX.ListView.Adapters.Base.TAbstractListViewAdapter</a>
+</li><li> <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.Types.IListViewAdapter" title="lib en:FMX.ListView.Types.IListViewAdapter">FMX.ListView.Types.IListViewAdapter</a>
+</li><li> <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.Types.IListViewTextProvider" title="lib en:FMX.ListView.Types.IListViewTextProvider">FMX.ListView.Types.IListViewTextProvider</a>
+</li><li> <a class="extiw" href="http://docwiki.embarcadero.com/Libraries/Berlin/en/FMX.ListView.Types.IListViewTextButtonProvider" title="lib en:FMX.ListView.Types.IListViewTextButtonProvider">FMX.ListView.Types.IListViewTextButtonProvider</a>
+</li></ul>
+
+
+</div>
+            <div class="visualClear"></div>
+          </div>
+        </div>
+      </div>
+      <div class="visualClear"></div>
+    </div>
+  </body>
+</html>
